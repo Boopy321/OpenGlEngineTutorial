@@ -13,6 +13,7 @@
 #include "Assets\RenderTargets\RenderTarget.h"
 #include "Assets\Render\Renderer.h"
 #include <assert.h>
+#include "Assets\GpuParticle\GpuParticleEmitter.h"
 
 using namespace std;
 
@@ -20,8 +21,12 @@ using namespace std;
 Tutorial3::Tutorial3(Renderer* a_render)
 {
 	m_render = a_render;
-	
-	
+	m_emitter = new GPUParticleEmitter(a_render);
+	m_emitter->initalise(100000,
+		0.1f, 5.0f,
+		5, 20,
+		1, 0.1f,
+		glm::vec4(1, 0, 0, 1), glm::vec4(1, 1, 0, 1));
 }
 
 Tutorial3::~Tutorial3()
@@ -30,7 +35,7 @@ Tutorial3::~Tutorial3()
 
 void Tutorial3::ImageLoad()
 {
-	/*indexData = m_render->LoadObject("./data/bunny");*/
+	indexData = m_render->LoadObject("./data/models/bunny");
 	/*assert(indexData > 0);*/
 	//Actually Create a light fvalue
 	m_lightColour = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -46,7 +51,7 @@ void Tutorial3::Draw(FlyCamera &_gameCamera, float a_deltatime)
 	//Actual Drawing
 	glUseProgram(m_program);
 	assert(m_program > 0);
-	
+
 	int loc = glGetUniformLocation(m_program, "ProjectionView");
 	glUniformMatrix4fv(loc, 1, GL_FALSE, &_gameCamera.getProjectionView()[0][0]);
 
@@ -67,13 +72,13 @@ void Tutorial3::Draw(FlyCamera &_gameCamera, float a_deltatime)
 	
 	glDrawElements(GL_TRIANGLES, indexData , GL_UNSIGNED_INT, 0);
 
-	m_render->Draw(_gameCamera, a_deltatime);
-	
+	m_emitter->draw((float)glfwGetTime(),
+		_gameCamera.getWorldTransform(),
+		_gameCamera.getProjectionView());
 }
 
 void Tutorial3::GameLoop()
 {
-	
 }
 
 void Tutorial3::AddVarToTwBar(TwBar* a_bar)

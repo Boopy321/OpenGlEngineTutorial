@@ -56,6 +56,10 @@ void Camera::UpdateProjectionViewTransform()
 	m_projectionViewTransform = m_projectionTransform * m_viewTransform;
 }
 
+mat4 Camera::getWorldTransform()
+{
+	return m_worldTransform;
+}
 Camera::~Camera()
 {
 

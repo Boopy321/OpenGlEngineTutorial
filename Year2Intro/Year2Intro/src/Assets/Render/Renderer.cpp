@@ -89,6 +89,9 @@ GLuint Renderer::LoadShaderFromFile(std::string a_path, GLenum  a_shadertype)
 	}
 }
 
+
+
+
 bool Renderer::LoadProgram(std::string a_vertShader, std::string a_fragShader, unsigned int &a_program)
 {
 	//Generate program

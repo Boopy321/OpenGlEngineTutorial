@@ -21,6 +21,7 @@ public:
 	////Loads the shader into the renderer also runs LoadProgram
 	//void LoadShader(std::string a_vertShader, std::string a_fragShader);
 
+	bool LoadDrawProgram(std::string a_gpuVERT, std::string a_gpuGEOMETRY, std::string a_gpuFRAG, unsigned int &a_gpuprogram);
 	void LoadFBX(const char* string);
 
 	void Draw(FlyCamera &_gameCamera, float a_deltatime);
@@ -49,8 +50,10 @@ public:
 	unsigned int ReturnProgramParticle();
 	unsigned int ReturnProgramObject();
 	unsigned int ReturnProgramFbx();
+
 protected:
 
+	unsigned int m_GPUProgram;
 	unsigned int m_ProgramID;
 	unsigned int m_ProgramParticle;
 	unsigned int m_ProgramObject;

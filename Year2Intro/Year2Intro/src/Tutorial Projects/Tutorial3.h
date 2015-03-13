@@ -6,8 +6,8 @@ class FlyCamera;
 #include "AntTweakBar.h"
 #include "TutorialBaseClass.h"
 #include <GLFW\glfw3.h>
-
-class Renderer;\
+class GPUParticleEmitter;
+class Renderer;
 class ObjectLoader;
 
 class Tutorial3 : public TutorialBaseClass
@@ -38,6 +38,8 @@ private:
 	glm::vec3 m_lightDir;
 	glm::vec3 m_lightColour;
 	
+	GPUParticleEmitter* m_emitter;
+
 	Renderer* m_render;
 	
 	float m_spec;
