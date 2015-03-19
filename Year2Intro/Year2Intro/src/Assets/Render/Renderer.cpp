@@ -23,7 +23,7 @@ Renderer::Renderer()
 	///start up all of the programs here
 	LoadProgram("./data/Tute3VertShader.glvs","./data/Tute3FragShader.glfs",m_ProgramObject);
 	LoadProgram("./data/ParticleTut.vert","./data/ParticleTute.frag",m_ProgramParticle);
-	//LoadProgram("./data/Tute2Vert.glvs", "./data/tute2Frag.glfs", m_ProgramID);
+	LoadProgram("./data/RenderShader.vert", "./data/RenderShader.frag", m_ProgramID);
 
 	
 	//LoadProgram()
@@ -74,8 +74,16 @@ GLuint Renderer::LoadShaderFromFile(std::string a_path, GLenum  a_shadertype)
 			glGetShaderiv(shaderID, GL_COMPILE_STATUS, &shaderCompiled);
 			if (shaderCompiled != GL_TRUE)
 			{
-				printf("Unable to compile shader %d!\n\nSource:\n%s\n", shaderID, shaderSource);
+				int bufflen;
+				glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &bufflen);
+				char* log = new char[bufflen + 1];
 
+				glGetShaderInfoLog(shaderID, bufflen, 0, log);
+
+
+				printf("Unable to compile shader %d!\n\nSource:\n%s\n", shaderID, log);
+
+				delete log;
 				glDeleteShader(shaderID);
 				shaderID = 0;
 			}

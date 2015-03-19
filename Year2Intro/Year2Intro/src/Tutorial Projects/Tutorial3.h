@@ -8,6 +8,7 @@ class FlyCamera;
 #include <GLFW\glfw3.h>
 class GPUParticleEmitter;
 class Renderer;
+class RenderTarget;
 class ObjectLoader;
 
 class Tutorial3 : public TutorialBaseClass
@@ -25,12 +26,18 @@ public:
 	void ShaderProgram();
 	void AddVarToTwBar(TwBar* a_bar);
 	void GetShaderProgram(GLuint a_program);
+	void GenMesh();
+	void DoStuff(FlyCamera &_gameCamera);
+	void AdjustParTime();
 
 private:
 
-
+	unsigned int m_vbo, m_vao, m_ibo;
 	unsigned int m_texture;
 	unsigned int indexData;
+	float m_parTime;
+	bool m_increment;
+	float m_speed;
 
 	int m_imageWidth, m_imageHeight, m_imageFormat;
 
@@ -41,7 +48,8 @@ private:
 	GPUParticleEmitter* m_emitter;
 
 	Renderer* m_render;
-	
+	RenderTarget* m_AltScreen;
+
 	float m_spec;
 };
 

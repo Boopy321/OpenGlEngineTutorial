@@ -18,7 +18,7 @@ public:
 		const glm::vec4& a_endColour);
 
 	//Draw the Beautiful Particles
-	void draw(float time, const glm::mat4& a_cameraTransform,
+	void draw(float parTime, float time, const glm::mat4& a_cameraTransform,
 		const glm::mat4& a_projectionView);
 
 private: 

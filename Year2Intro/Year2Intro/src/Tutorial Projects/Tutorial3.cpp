@@ -20,13 +20,18 @@ using namespace std;
 
 Tutorial3::Tutorial3(Renderer* a_render)
 {
+	m_parTime = -5;
+	m_speed = 0.1f;
 	m_render = a_render;
 	m_emitter = new GPUParticleEmitter(a_render);
-	m_emitter->initalise(100000,
-		0.1f, 5.0f,
+	m_emitter->initalise(10000,
+		.10f, 3.f,
 		5, 20,
 		1, 0.1f,
 		glm::vec4(1, 0, 0, 1), glm::vec4(1, 1, 0, 1));
+	
+	m_AltScreen = new RenderTarget(512,512);
+	GenMesh();
 }
 
 Tutorial3::~Tutorial3()
@@ -35,23 +40,49 @@ Tutorial3::~Tutorial3()
 
 void Tutorial3::ImageLoad()
 {
-	indexData = m_render->LoadObject("./data/models/bunny");
+	/*indexData = m_render->LoadObject("./data/models/bunny");*/
+
 	/*assert(indexData > 0);*/
 	//Actually Create a light fvalue
 	m_lightColour = glm::vec3(1.0f, 1.0f, 1.0f);
 	m_lightDir = glm::vec3(0.f, 0.f, 1.0f);
 	m_spec = 8;
+	
 }
 
 void Tutorial3::Draw(FlyCamera &_gameCamera, float a_deltatime)
 {
 	Gizmos::addTransform(glm::mat4(1), 5.0f);
-	unsigned int m_program = m_render->ReturnProgramObject();
+	
+	//Bind the framebuffer
+	// Bind FBO
+	// Render stuff to FBO texture here
+	// Bind backbuffer
+	// Shader bind for each type of mesh
+	// Render stuff and FBO texture on plane
 
+	m_AltScreen->BindTarget();
+
+	
+	glClearColor(1.f, 1.f, 1.f, 1);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	Gizmos::draw(_gameCamera.getProjectionView());
+
+	
+	//Unbind Framebuffer
+	m_AltScreen->BindBackBuffer();
+
+	//------------------------------------------------------
+
+	glViewport(0, 0, 1280, 900);
+
+	DoStuff(_gameCamera);
+
+	int m_program = m_render->ReturnProgramObject();
 	//Actual Drawing
 	glUseProgram(m_program);
 	assert(m_program > 0);
-
+	
 	int loc = glGetUniformLocation(m_program, "ProjectionView");
 	glUniformMatrix4fv(loc, 1, GL_FALSE, &_gameCamera.getProjectionView()[0][0]);
 
@@ -72,7 +103,14 @@ void Tutorial3::Draw(FlyCamera &_gameCamera, float a_deltatime)
 	
 	glDrawElements(GL_TRIANGLES, indexData , GL_UNSIGNED_INT, 0);
 
-	m_emitter->draw((float)glfwGetTime(),
+	AdjustParTime();
+
+	if (m_increment == true)
+		m_parTime += m_speed;
+	else
+		m_parTime -= m_speed;
+
+	m_emitter->draw(m_parTime , (float)glfwGetTime(),
 		_gameCamera.getWorldTransform(),
 		_gameCamera.getProjectionView());
 }
@@ -94,3 +132,60 @@ void Tutorial3::AddVarToTwBar(TwBar* a_bar)
 		TW_TYPE_FLOAT, &m_spec, "");
 }
 
+void Tutorial3::GenMesh()
+{
+	float vertexData[] = {
+		-5, 0, -5, 1, 0, 0,
+		5, 0, -5, 1, 1, 0,
+		5, 10, -5, 1, 1, 1,
+		-5, 10, -5, 1, 0, 1,
+	};
+	unsigned int indexData[] = {
+		0, 1, 2,
+		0, 2, 3,
+	};
+	glGenVertexArrays(1, &m_vao);
+	glBindVertexArray(m_vao);
+	glGenBuffers(1, &m_vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float)* 6 * 4,
+		vertexData, GL_STATIC_DRAW);
+	glGenBuffers(1, &m_ibo);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int)* 6,
+		indexData, GL_STATIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE,
+		sizeof(float)* 6, 0);
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE,
+		sizeof(float)* 6, ((char*)0) + 16);
+	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}
+
+void Tutorial3::DoStuff(FlyCamera &_gameCamera)
+{
+	unsigned int m_program = m_render->ReturnProgram();
+
+	glUseProgram(m_program);
+
+	int loc = glGetUniformLocation(m_program, "ProjectionView");
+	glUniformMatrix4fv(loc, 1, GL_FALSE,
+		&_gameCamera.getProjectionView()[0][0]);
+
+	m_AltScreen->BindTexture();
+
+	glUniform1i(glGetUniformLocation(m_program, "diffuse"), 0);
+	glBindVertexArray(m_vao);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+}
+
+void Tutorial3::AdjustParTime()
+{
+	if (m_parTime >= 100 && m_parTime >= 0)
+		m_increment = false;
+	else if (m_parTime <= -100 && m_parTime <= 0)
+		m_increment = true;
+}

@@ -69,6 +69,9 @@
     <ClCompile Include="src\Assets\CpuParticle\ParticleEmittor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Assets\GpuParticle\GpuParticleEmitter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\Assets\RenderTargets\RenderTarget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -135,6 +138,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Assets\RenderTargets\RenderTarget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Assets\GpuParticle\GpuParticleEmitter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Assets\GpuParticle\GPUParticles.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

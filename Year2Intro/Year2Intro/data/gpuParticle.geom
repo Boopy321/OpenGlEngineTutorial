@@ -1,20 +1,23 @@
 #version 410
-// input is points but output a quad
 layout(points) in;
 layout(triangle_strip, max_vertices = 4) out;
 // input data from vertex shader
+
 in vec3 position[];
 in float lifetime[];
 in float lifespan[];
 // output to fragment shader
 out vec4 Colour;
+
 uniform mat4 projectionView;
 uniform mat4 cameraTransform;
 uniform float sizeStart;
 uniform float sizeEnd;
 uniform vec4 colourStart;
 uniform vec4 colourEnd;
-void main() {
+
+void main()
+{
 // interpolate colour
 Colour = mix(colourStart, colourEnd, lifetime[0] / lifespan[0] );
 // calculate the size and create the corners of a quad

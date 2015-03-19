@@ -164,7 +164,7 @@ void GPUParticleEmitter::createUpdateShader()
 	glUniform1f(location, m_lifespanMax);
 }
 
-void GPUParticleEmitter::draw(float time,
+void GPUParticleEmitter::draw(float parTime, float time,
 	const glm::mat4& a_cameraTransform,
 	const glm::mat4& a_projectionView)
 {
@@ -173,6 +173,9 @@ void GPUParticleEmitter::draw(float time,
 	// bind time information
 	int location = glGetUniformLocation(m_updateShader, "time");
 	glUniform1f(location, time);
+
+	 location = glGetUniformLocation(m_updateShader, "parTime");
+	glUniform1f(location, parTime);
 
 	float deltaTime = time - m_lastDrawTime; m_lastDrawTime = time;
 	location = glGetUniformLocation(m_updateShader, "deltaTime");

@@ -2,12 +2,13 @@
 class RenderTarget
 {
 public:
-	RenderTarget();
+	RenderTarget(int a_height, int a_width);
 	~RenderTarget();
-	void BindTexture();
-	void SetUpFrameBuffers();
+	void BindTarget();
 	void GenFrameBuffers();
-	void GenBuffers(); 
+	static void BindBackBuffer();
+	void BindTexture();
+
 protected:
 	unsigned int m_fbo;
 	unsigned int m_vao;
@@ -15,7 +16,8 @@ protected:
 	unsigned int m_ibo;
 	unsigned int m_fboDepth;
 	unsigned int m_fboTexture;
+	int m_height;
+	int m_width;
 	
-
 };
 
