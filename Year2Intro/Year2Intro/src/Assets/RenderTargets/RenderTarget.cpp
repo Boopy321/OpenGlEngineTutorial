@@ -57,6 +57,8 @@ void RenderTarget::BindBackBuffer()
 void RenderTarget::BindTexture()
 {
 	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, m_fboTexture);
 }
 
 //Creates the mesh for the target to be drawn to.
+

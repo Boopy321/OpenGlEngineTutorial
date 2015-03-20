@@ -31,7 +31,6 @@ public:
 	void AdjustParTime();
 
 private:
-
 	unsigned int m_vbo, m_vao, m_ibo;
 	unsigned int m_texture;
 	unsigned int indexData;
@@ -46,7 +45,7 @@ private:
 	glm::vec3 m_lightColour;
 	
 	GPUParticleEmitter* m_emitter;
-
+	GPUParticleEmitter* m_emitterReverse;
 	Renderer* m_render;
 	RenderTarget* m_AltScreen;
 

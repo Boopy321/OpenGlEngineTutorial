@@ -82,6 +82,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="dep\aieutilities\Gizmos.cpp" />
+    <ClCompile Include="src\Tutorial Projects\PostProcessingTutorial.cpp" />
     <ClCompile Include="src\Assets\GpuParticle\GpuParticleEmitter.cpp" />
     <ClCompile Include="src\Assets\RenderTargets\RenderTarget.cpp" />
     <ClCompile Include="src\Assets\CpuParticle\ParticleEmittor.cpp" />
@@ -104,6 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dep\aieutilities\Gizmos.h" />
+    <ClInclude Include="src\Tutorial Projects\PostProcessingTutorial.h" />
     <ClInclude Include="src\Assets\GpuParticle\GpuParticleEmitter.h" />
     <ClInclude Include="src\Assets\GpuParticle\GPUParticles.h" />
     <ClInclude Include="src\Assets\RenderTargets\RenderTarget.h" />

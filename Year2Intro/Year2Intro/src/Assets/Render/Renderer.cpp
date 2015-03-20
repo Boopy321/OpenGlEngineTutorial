@@ -24,7 +24,7 @@ Renderer::Renderer()
 	LoadProgram("./data/Tute3VertShader.glvs","./data/Tute3FragShader.glfs",m_ProgramObject);
 	LoadProgram("./data/ParticleTut.vert","./data/ParticleTute.frag",m_ProgramParticle);
 	LoadProgram("./data/RenderShader.vert", "./data/RenderShader.frag", m_ProgramID);
-
+	LoadProgram("./data/PostProcess.vertex", "./data/PostProcess.Frag", m_ProgramPostProcess);
 	
 	//LoadProgram()
 	StartCpuParticle(10000, 100, 1, 5, 1, 5, 1, 5, glm::vec4(1, 0, 0, 1), glm::vec4(1, 1, 0, 1));
@@ -445,6 +445,11 @@ unsigned int Renderer::ReturnProgramObject()
 unsigned int Renderer::ReturnProgramFbx()
 {
 	return m_ProgramFbx;
+}
+
+unsigned int Renderer::ReturnProgramPostProcess()
+{
+	return m_ProgramPostProcess;
 }
 
 void Renderer::Close()

@@ -50,6 +50,7 @@ public:
 	unsigned int ReturnProgramParticle();
 	unsigned int ReturnProgramObject();
 	unsigned int ReturnProgramFbx();
+	unsigned int ReturnProgramPostProcess();
 
 protected:
 
@@ -58,6 +59,7 @@ protected:
 	unsigned int m_ProgramParticle;
 	unsigned int m_ProgramObject;
 	unsigned int m_ProgramFbx;
+	unsigned int m_ProgramPostProcess;
 
 	ParticleEmittor* m_cpuEmittor;
 

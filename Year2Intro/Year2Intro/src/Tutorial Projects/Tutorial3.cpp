@@ -21,17 +21,25 @@ using namespace std;
 Tutorial3::Tutorial3(Renderer* a_render)
 {
 	m_parTime = -5;
+
 	m_speed = 0.1f;
 	m_render = a_render;
 	m_emitter = new GPUParticleEmitter(a_render);
-	m_emitter->initalise(10000,
-		.10f, 3.f,
-		5, 20,
-		1, 0.1f,
-		glm::vec4(1, 0, 0, 1), glm::vec4(1, 1, 0, 1));
+	m_emitterReverse = new GPUParticleEmitter(a_render);
+
+	m_emitter->initalise(1000000,
+		0.01f, 3.f,
+		0.01f, 5,
+		0.1, 0.0001f,
+		glm::vec4(1, 0, 0, 1), glm::vec4(1, 1, 0, 0));
 	
-	m_AltScreen = new RenderTarget(512,512);
-	GenMesh();
+	m_emitterReverse->initalise(1000000,
+		0.01f, 0.9f,
+		0.01f, 5,
+		0.1, 0.0001f,
+		glm::vec4(0.75, 0.75, 0.75, 0.4), glm::vec4(0.25, 0.25, 0.25, 1));
+	//m_AltScreen = new RenderTarget(512,512);
+	/*GenMesh();*/
 }
 
 Tutorial3::~Tutorial3()
@@ -61,22 +69,22 @@ void Tutorial3::Draw(FlyCamera &_gameCamera, float a_deltatime)
 	// Shader bind for each type of mesh
 	// Render stuff and FBO texture on plane
 
-	m_AltScreen->BindTarget();
+	////m_AltScreen->BindTarget();
 
-	
-	glClearColor(1.f, 1.f, 1.f, 1);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	Gizmos::draw(_gameCamera.getProjectionView());
+	//
+	//glClearColor(1.f, 1.f, 1.f, 1);
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//Gizmos::draw(_gameCamera.getProjectionView());
 
-	
-	//Unbind Framebuffer
-	m_AltScreen->BindBackBuffer();
+	//
+	////Unbind Framebuffer
+	//m_AltScreen->BindBackBuffer();
 
 	//------------------------------------------------------
 
 	glViewport(0, 0, 1280, 900);
 
-	DoStuff(_gameCamera);
+	/*DoStuff(_gameCamera);*/
 
 	int m_program = m_render->ReturnProgramObject();
 	//Actual Drawing
@@ -104,15 +112,19 @@ void Tutorial3::Draw(FlyCamera &_gameCamera, float a_deltatime)
 	glDrawElements(GL_TRIANGLES, indexData , GL_UNSIGNED_INT, 0);
 
 	AdjustParTime();
-
 	if (m_increment == true)
-		m_parTime += m_speed;
+		m_parTime += 0.1f;
 	else
-		m_parTime -= m_speed;
+		m_parTime -= 0.1f;
 
-	m_emitter->draw(m_parTime , (float)glfwGetTime(),
+	m_emitter->draw(m_parTime, (float)glfwGetTime(),
 		_gameCamera.getWorldTransform(),
 		_gameCamera.getProjectionView());
+
+	m_emitterReverse->draw(m_parTime, (float)glfwGetTime(),
+		_gameCamera.getWorldTransform(),
+		_gameCamera.getProjectionView());
+	/*glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);*/
 }
 
 void Tutorial3::GameLoop()
@@ -184,8 +196,8 @@ void Tutorial3::DoStuff(FlyCamera &_gameCamera)
 
 void Tutorial3::AdjustParTime()
 {
-	if (m_parTime >= 100 && m_parTime >= 0)
+	if (m_parTime >= 10 && m_parTime >= 0)
 		m_increment = false;
-	else if (m_parTime <= -100 && m_parTime <= 0)
+	else if (m_parTime <= -10 && m_parTime <= 0)
 		m_increment = true;
 }
