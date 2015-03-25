@@ -36,7 +36,7 @@ float d = 80;
 //lifetime
 //lifespan
 position.x = Position.x + Velocity * deltaTime;
-newVelocity.y = 1+parTime;
+newVelocity.y = 100;
 newVelocity.z = 1;
 position = Position * Velocity * deltaTime;
 velocity = newVelocity;
