@@ -41,7 +41,7 @@ bool Application::startUp()
 		
 		//Load Render into Tutorial
 		m_render = new Renderer();
-		CurrentProject = new Tutorial3(m_render);
+		CurrentProject = new PostProcessingTutorial(m_render);
 		
 		//AntTweakbar stuff
 		TwInit(TW_OPENGL_CORE, nullptr);
@@ -51,10 +51,10 @@ bool Application::startUp()
 		TwAddVarRW(m_bar, "Clear Colour",
 			TW_TYPE_COLOR4F, &m_clearColour[0], "");
 
-		m_clearColour.x = 0.5f;
+		m_clearColour = vec4(1.0f,1.0f,1.0f,1.0f);
 
-		CurrentProject->AddVarToTwBar(m_bar);
-		CurrentProject->ImageLoad();
+		/*CurrentProject->AddVarToTwBar(m_bar);
+		CurrentProject->ImageLoad()*/;
 		return true;
 }
 

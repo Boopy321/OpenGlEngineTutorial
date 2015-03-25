@@ -35,7 +35,7 @@ void GPUParticleEmitter::initalise(unsigned int a_maxParticles,
 {
 	// store all variables passed in
 	m_startColour = a_startColour;
-	m_endColour = a_endColour;
+	m_endColour = a_endColour; 
 	m_startSize = a_startSize;
 	m_endSize = a_endSize;
 	m_velocityMin = a_velocityMin;
@@ -47,6 +47,10 @@ void GPUParticleEmitter::initalise(unsigned int a_maxParticles,
 	m_particles = new GPUParticle[a_maxParticles];
 	// set our starting ping-pong buffer
 	m_activeBuffer = 0;
+
+	glEnable(GL_BLEND);
+	glBlendEquation(GL_FUNC_ADD);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	//Gotta Refine this to my code
 	createBuffers();	createUpdateShader();

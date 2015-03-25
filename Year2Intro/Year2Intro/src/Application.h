@@ -8,11 +8,13 @@ struct GLFWwindow;
 #include "Tutorial Projects/Tutorial3.h"
 #include "Tutorial Projects/Tutorial4.h"
 #include "Tutorial Projects/Tutorial5.h"
+#include "Tutorial Projects\PostProcessingTutorial.h"
 #include "Assets/Camera/FlyCamera.h"
 #include <AntTweakBar.h>
 #include "Assets/InputManager/InputManager.h"
 #include "Loaders/TinyObjLoader/tiny_obj_loader.h"
 #include "Loaders/TinyObjLoader/TinyObjSideProject.h"
+
 
 //Global space so any project can use AntTweakBar
 
@@ -39,7 +41,7 @@ private:
 
 	TwBar* m_bar;
 
-	Tutorial3* CurrentProject;
+	PostProcessingTutorial* CurrentProject;
 
 	InputManager m_keyManager;
 

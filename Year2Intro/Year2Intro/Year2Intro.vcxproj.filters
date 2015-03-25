@@ -66,13 +66,16 @@
     <ClCompile Include="src\gl_core_4_4.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Assets\CpuParticle\ParticleEmittor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Assets\GpuParticle\GpuParticleEmitter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Assets\RenderTargets\RenderTarget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tutorial Projects\PostProcessingTutorial.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Assets\CpuParticle\ParticleEmittor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -131,12 +134,6 @@
     <ClInclude Include="src\gl_core_4_4.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Assets\CpuParticle\ParticleEmittor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Assets\CpuParticle\Particle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Assets\RenderTargets\RenderTarget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -144,6 +141,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Assets\GpuParticle\GPUParticles.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tutorial Projects\PostProcessingTutorial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Assets\CpuParticle\Particle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Assets\CpuParticle\ParticleEmittor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
