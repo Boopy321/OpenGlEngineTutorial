@@ -8,7 +8,7 @@
 
 PostProcessingTutorial::PostProcessingTutorial(Renderer* a_render)
 {
-	m_renderScreen = new RenderTarget(1280, 720);
+	m_renderScreen = new RenderTarget(1280, 720,100);
 	m_render = a_render;
 	QuadScreen();
 }

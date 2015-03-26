@@ -41,20 +41,22 @@ bool Application::startUp()
 		
 		//Load Render into Tutorial
 		m_render = new Renderer();
-		CurrentProject = new PostProcessingTutorial(m_render);
+		CurrentProject = new ShadowsTutorial(m_render);
 		
 		//AntTweakbar stuff
 		TwInit(TW_OPENGL_CORE, nullptr);
 		TwWindowSize(1280, 720);
 		m_keyManager.AntBarCallbacks(window);
 		m_bar = TwNewBar("This is the bar");
+
 		TwAddVarRW(m_bar, "Clear Colour",
 			TW_TYPE_COLOR4F, &m_clearColour[0], "");
 
 		m_clearColour = vec4(1.0f,1.0f,1.0f,1.0f);
-
-		/*CurrentProject->AddVarToTwBar(m_bar);
-		CurrentProject->ImageLoad()*/;
+		_gameCamera.AddCamSpeedToTwBar(m_bar);
+		/*CurrentProject->AddVarToTwBar(m_bar);*/
+		CurrentProject->AddstuffTwBar(m_bar);
+		//CurrentProject->ImageLoad()*/;
 		return true;
 }
 
@@ -122,17 +124,4 @@ void Application::run()
 		shutdown();
 }
 
-//
-//
-//void Tutorial3::AddVarToTwBar(TwBar* a_bar)
-//{
-//	//Add the variables for Tweak bar
-//	TwAddVarRW(a_bar, "Light Colour",
-//		TW_TYPE_COLOR3F, &m_lightColour[0], "");
-//
-//	TwAddVarRW(a_bar, "Light Direction",
-//		TW_TYPE_DIR3F, &m_lightDir[0], "");
-//
-//	TwAddVarRW(a_bar, "Specular Power",
-//		TW_TYPE_FLOAT, &m_spec, "");
-//}
+

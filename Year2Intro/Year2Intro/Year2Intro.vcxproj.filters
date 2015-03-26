@@ -78,6 +78,9 @@
     <ClCompile Include="src\Assets\CpuParticle\ParticleEmittor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Tutorial Projects\ShadowsTutorial.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dep\aieutilities\Gizmos.h">
@@ -150,6 +153,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Assets\CpuParticle\ParticleEmittor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tutorial Projects\ShadowsTutorial.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

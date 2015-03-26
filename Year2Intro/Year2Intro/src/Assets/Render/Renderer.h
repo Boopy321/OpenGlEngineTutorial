@@ -26,6 +26,8 @@ public:
 
 	void Draw(FlyCamera &_gameCamera, float a_deltatime);
 
+	void DrawQuad();
+
 	void StartCpuParticle(unsigned int a_maxParticles,
 		unsigned int a_emitRate,
 		float a_lifetimeMin, float a_lifetimeMax,
@@ -39,8 +41,8 @@ public:
 
 	//Deconstructor stuff
 	void Close();
-
-	void TempDraw();
+	//Whatever Fbx model is loaded.
+	void FBXDraw();
 	//Buffer data
 	unsigned int m_VAO;
 	unsigned int m_VBO;
@@ -51,15 +53,24 @@ public:
 	unsigned int ReturnProgramObject();
 	unsigned int ReturnProgramFbx();
 	unsigned int ReturnProgramPostProcess();
+	unsigned int ReturnProgramShadow();
+	unsigned int ReturnProgramShadowMap();
+	unsigned int ReturnProgramFBX();
+
+	void DrawShadowCast();
+
 
 protected:
-
+	//Variables to contain the shader programs
 	unsigned int m_GPUProgram;
 	unsigned int m_ProgramID;
 	unsigned int m_ProgramParticle;
 	unsigned int m_ProgramObject;
 	unsigned int m_ProgramFbx;
 	unsigned int m_ProgramPostProcess;
+	unsigned int m_ProgramShadow;
+	unsigned int m_ProgramShadowMap;
+	
 
 	ParticleEmittor* m_cpuEmittor;
 

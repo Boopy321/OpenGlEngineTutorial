@@ -3,6 +3,7 @@ class RenderTarget
 {
 public:
 	RenderTarget(int a_height, int a_width);
+	RenderTarget(int a_height, int a_width, int shadowmap);
 	~RenderTarget();
 	void BindTarget();
 	void GenFrameBuffers();

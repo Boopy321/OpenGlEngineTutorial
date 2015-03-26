@@ -54,7 +54,7 @@ void Tutorial5::Draw(FlyCamera &_gameCamera, float a_deltatime)
 	glUniform1f(loc, m_spec);
 		
 	
-	m_render->TempDraw();
+	m_render->FBXDraw();
 	
 }
 

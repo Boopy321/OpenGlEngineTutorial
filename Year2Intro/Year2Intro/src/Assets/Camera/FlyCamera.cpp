@@ -1,6 +1,6 @@
 #include "FlyCamera.h"
 #include <GLFW\glfw3.h>
-
+#include <AntTweakBar.h>
 #include <iostream>
 
 FlyCamera::FlyCamera()
@@ -132,3 +132,9 @@ void FlyCamera::CalculateRoation(glm::vec2 a_Offset)
 }
 
 
+void FlyCamera::AddCamSpeedToTwBar(TwBar* a_bar)
+{
+	//Add the variables for Tweak bar
+	TwAddVarRW(a_bar, "Camera Speed",
+		TW_TYPE_FLOAT, &m_fFlySpeed, "");
+}

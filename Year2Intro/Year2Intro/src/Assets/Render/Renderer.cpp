@@ -20,12 +20,15 @@ using glm::vec3;
 Renderer::Renderer()
 {
 
-	///start up all of the programs here
+	//start up all of the programs here
 	LoadProgram("./data/Tute3VertShader.glvs","./data/Tute3FragShader.glfs",m_ProgramObject);
 	LoadProgram("./data/ParticleTut.vert","./data/ParticleTute.frag",m_ProgramParticle);
 	LoadProgram("./data/RenderShader.vert", "./data/RenderShader.frag", m_ProgramID);
 	LoadProgram("./data/PostProcess.vertex", "./data/PostProcess.Frag", m_ProgramPostProcess);
-	
+	LoadProgram("./data/Shadows.vert", "./data/Shadows.Frag", m_ProgramShadow);
+	LoadProgram("./data/FbxShader.vert", "./data/FbxShader.Frag", m_ProgramFbx);
+	//LoadProgram("./data/ShadowMap.vert", "./data/ShadowMap.Frag", m_ProgramShadowMap);
+
 	//LoadProgram()
 	StartCpuParticle(10000, 100, 1, 5, 1, 5, 1, 5, glm::vec4(1, 0, 0, 1), glm::vec4(1, 1, 0, 1));
 }
@@ -322,7 +325,7 @@ void Renderer::Generate2DObject()
 //}
 
 
-void Renderer::TempDraw()
+void Renderer::FBXDraw()
 {
 	for (unsigned int i = 0; i < m_fbx->getMeshCount(); ++i)
 	{
@@ -452,6 +455,21 @@ unsigned int Renderer::ReturnProgramPostProcess()
 	return m_ProgramPostProcess;
 }
 
+unsigned int Renderer::ReturnProgramShadow()
+{
+	return m_ProgramShadow;
+}
+
+unsigned int Renderer::ReturnProgramShadowMap()
+{
+	return m_ProgramShadowMap;
+}
+
+unsigned int Renderer::ReturnProgramFBX()
+{
+	return m_ProgramFbx;
+}
+
 void Renderer::Close()
 {
 	CleanupOpenGlBuffers(m_fbx);
@@ -463,3 +481,20 @@ void Renderer::Close()
 
 }
 
+void Renderer::DrawShadowCast()
+{
+	for (unsigned int i = 0; i < m_fbx->getMeshCount(); ++i) 
+	{
+		FBXMeshNode* mesh = m_fbx->getMeshByIndex(i);
+		unsigned int* glData = (unsigned int*)mesh->m_userData;
+		glBindVertexArray(glData[0]);
+		glDrawElements(GL_TRIANGLES,
+			(unsigned int)mesh->m_indices.size(),
+			GL_UNSIGNED_INT, 0);
+	}
+}
+
+void Renderer::DrawQuad()
+{
+
+}

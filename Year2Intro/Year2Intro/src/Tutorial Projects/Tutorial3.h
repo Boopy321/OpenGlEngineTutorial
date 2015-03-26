@@ -3,12 +3,12 @@ class FlyCamera;
 
 #include <vector>
 #include "VertexStructure.h"
-#include "AntTweakBar.h"
 #include "TutorialBaseClass.h"
 #include <GLFW\glfw3.h>
 class GPUParticleEmitter;
 class Renderer;
 class RenderTarget;
+#include <AntTweakBar.h>
 class ObjectLoader;
 
 class Tutorial3 : public TutorialBaseClass

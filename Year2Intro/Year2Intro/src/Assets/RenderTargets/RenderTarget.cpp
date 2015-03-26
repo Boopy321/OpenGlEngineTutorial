@@ -33,7 +33,42 @@ RenderTarget::RenderTarget(int a_height,int a_width)
 		printf("Framebuffer Error!\n");
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
+//Another Constructor End value is useless, Making it possible to dif between the two
+RenderTarget::RenderTarget(int a_height, int a_width, int shadowmap )
+{
+	// Create fbo, texture and depth buffer here
+	m_height = a_height;
+	m_width = a_width;
+	// setup shadow map buffer
+	glGenFramebuffers(1, &m_fbo);
+	glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
 
+	glGenTextures(1, &m_fboDepth);
+	glBindTexture(GL_TEXTURE_2D, m_fboDepth);
+	// texture uses a 16-bit depth component format
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT16, a_width, a_height,
+		0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
+		GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+		GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,
+		GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,
+		GL_CLAMP_TO_EDGE);
+
+	// attached as a depth attachment to capture depth not colour
+	glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
+		m_fboDepth, 0);
+	// no colour targets are used
+	glDrawBuffer(GL_NONE);
+	GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+	if (status != GL_FRAMEBUFFER_COMPLETE)
+		printf("Framebuffer Error!\n");
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
 RenderTarget::~RenderTarget()
 {
 	glDeleteBuffers(1,&m_fbo);
