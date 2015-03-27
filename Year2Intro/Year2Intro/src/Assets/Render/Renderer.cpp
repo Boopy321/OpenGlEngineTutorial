@@ -3,6 +3,7 @@
 #include "GLFW\glfw3.h"
 #include <string>
 #include <FBXFile.h>
+#include <stb_image.h>
 #include <glm\glm.hpp>
 #include <glm/ext.hpp>
 #include "VertexStructure.h"
@@ -27,8 +28,8 @@ Renderer::Renderer()
 	LoadProgram("./data/PostProcess.vertex", "./data/PostProcess.Frag", m_ProgramPostProcess);
 	LoadProgram("./data/Shadows.vert", "./data/Shadows.Frag", m_ProgramShadow);
 	LoadProgram("./data/FbxShader.vert", "./data/FbxShader.Frag", m_ProgramFbx);
-	//LoadProgram("./data/ShadowMap.vert", "./data/ShadowMap.Frag", m_ProgramShadowMap);
-
+	LoadProgram("./data/ShadowMap.vert", "./data/ShadowMap.Frag", m_ProgramShadowMap);
+	LoadProgram("./data/DifNormMapLoader.vert", "./data/DifNormMapLoader.frag", m_ProgramMapLoad);
 	//LoadProgram()
 	StartCpuParticle(10000, 100, 1, 5, 1, 5, 1, 5, glm::vec4(1, 0, 0, 1), glm::vec4(1, 1, 0, 1));
 }
@@ -199,6 +200,8 @@ void Renderer::LoadFBX(const char* string)
 	if (m_fbx->load(string))
 	{
 		CreateOpenGLBuffers(m_fbx);
+		DiffuseMapLoad();
+		NormalMapLoad();
 	}
 	else
 	{
@@ -273,10 +276,10 @@ void Renderer::Generate2DObject()
 {
 	Vertex vertexData[] =
 	{
-		{ vec4(-5, 0, 5, 1), vec4(0, 1, 0, 0), vec3(1, 0, 0), glm::vec2(0, 1) },
-		{ vec4(5, 0, 5, 1), vec4(0, 1, 0, 0), vec3(1, 0, 0), glm::vec2(1, 1) },
-		{ vec4(5, 0, -5, 1), vec4(0, 1, 0, 0), vec3(1, 0, 0), glm::vec2(1, 0) },
-		{ vec4(-5, 0, -5, 1), vec4(0, 1, 0, 0), vec3(1, 0, 0), glm::vec2(0, 0) },
+		{ vec4(-50, 0, 50, 1), vec4(0, 1, 0, 0), vec3(1, 0, 0), glm::vec2(0, 1) },
+		{ vec4(50, 0, 50, 1), vec4(0, 1, 0, 0), vec3(1, 0, 0), glm::vec2(1, 1) },
+		{ vec4(50, 0, -50, 1), vec4(0, 1, 0, 0), vec3(1, 0, 0), glm::vec2(1, 0) },
+		{ vec4(-50, 0, -50, 1), vec4(0, 1, 0, 0), vec3(1, 0, 0), glm::vec2(0, 0) },
 	};
 
 	unsigned int indexData[] = { 0, 1, 2, 0, 2, 3 };
@@ -335,6 +338,8 @@ void Renderer::FBXDraw()
 		glDrawElements(GL_TRIANGLES,
 			(unsigned int)mesh->m_indices.size(), GL_UNSIGNED_INT, 0);
 	}
+
+
 }
 
 //Starts up the particle emittor based of the data given
@@ -445,11 +450,6 @@ unsigned int Renderer::ReturnProgramObject()
 	return m_ProgramObject;
 }
 
-unsigned int Renderer::ReturnProgramFbx()
-{
-	return m_ProgramFbx;
-}
-
 unsigned int Renderer::ReturnProgramPostProcess()
 {
 	return m_ProgramPostProcess;
@@ -468,6 +468,11 @@ unsigned int Renderer::ReturnProgramShadowMap()
 unsigned int Renderer::ReturnProgramFBX()
 {
 	return m_ProgramFbx;
+}
+
+unsigned int Renderer::ReturnProgramMap()
+{
+	return m_ProgramMapLoad;
 }
 
 void Renderer::Close()
@@ -497,4 +502,49 @@ void Renderer::DrawShadowCast()
 void Renderer::DrawQuad()
 {
 
+}
+
+void Renderer::DiffuseMapLoad()
+{
+	int imageWidth = 0, imageHeight = 0, imageFormat = 0;
+	unsigned char* data;
+
+	//load Diffuse map
+	data = stbi_load("./data/model/¢ú-ÚÁ+¦÷/001/00002671/Texture2D/Diffuse_001.tga",
+		&imageWidth, &imageHeight, &imageFormat, STBI_default);
+
+	glGenTextures(1, &m_texture);
+	glBindTexture(GL_TEXTURE_2D, m_texture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imageWidth, imageHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+	stbi_image_free(data);
+}
+
+void Renderer::NormalMapLoad()
+{
+	//load Normal Map
+	int imageWidth = 0, imageHeight = 0, imageFormat = 0;
+	unsigned char* data;
+
+	data = stbi_load("./data/model/¢ú-ÚÁ+¦÷/001/00002671/Texture2D/Normal.tga",
+		&imageWidth, &imageHeight, &imageFormat, STBI_default);
+	
+	glGenTextures(1, &m_normalmap);
+	glBindTexture(GL_TEXTURE_2D, m_normalmap);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imageWidth, imageHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+	stbi_image_free(data);
+}
+
+void Renderer::MapTexture()
+{
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, m_texture);
+
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, m_normalmap);
 }

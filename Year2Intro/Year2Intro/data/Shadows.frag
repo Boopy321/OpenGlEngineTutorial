@@ -5,15 +5,18 @@ in vec4 vShadowCoord;
 
 out vec4 FragColour;
 
-uniform vec3 lightDir;
+uniform vec3 LightDir;
 uniform sampler2D shadowMap;
+uniform float shadowBias;
+
 void main()
 {
-  float d = max(0, dot(normalize(vNormal.xyz), lightDir));
-  if (texture(shadowMap, vShadowCoord.xy).r < vShadowCoord.z)
+  float d = max(0, dot(normalize(vNormal.xyz), LightDir));
+  if (texture(shadowMap, vShadowCoord.xy).r < vShadowCoord.z - shadowBias)
   {
-    d = 0;
-  }
 
-  FragColour = vec4(d, d, d, 1);
+      d = 0;
+  }
+    FragColour = vec4(d, d, d, 1);
+
 }

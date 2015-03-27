@@ -6,6 +6,7 @@
 #include "Assets\Render\Renderer.h"
 #include "Gizmos.h"
 
+
 PostProcessingTutorial::PostProcessingTutorial(Renderer* a_render)
 {
 	m_renderScreen = new RenderTarget(1280, 720,100);

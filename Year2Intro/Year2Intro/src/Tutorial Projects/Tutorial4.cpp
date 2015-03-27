@@ -30,28 +30,12 @@ Tutorial4::~Tutorial4()
 void Tutorial4::ImageLoad()
 {
 	m_render->Generate2DObject();
-	DiffuseMapLoad();
-	NormalMapLoad();
+	//DiffuseMapLoad();
+	//NormalMapLoad();
 
 }
 
-void Tutorial4::DiffuseMapLoad()
-{
-	int imageWidth = 0, imageHeight = 0, imageFormat = 0;
-	unsigned char* data;
 
-	//load Diffuse map
-	data = stbi_load("./data/textures/rock_diffuse.tga",
-		&imageWidth, &imageHeight, &imageFormat, STBI_default);
-
-	glGenTextures(1, &m_texture);
-	glBindTexture(GL_TEXTURE_2D, m_texture);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imageWidth, imageHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
-	stbi_image_free(data);
-}
 
 void Tutorial4::NormalMapLoad()
 {
@@ -128,27 +112,27 @@ void Tutorial4::GameLoop()
 //							 gl_Position = ProjectionView * Position; }";
 //
 //	const char* fsSource =  "#version 410\n \
-//							in vec2 vTexCoord; \
-//							in vec3 vNormal; \
-//							in vec3 vTangent; \
-//							in vec3 vBiTangent; \
-//							out vec4 FragColor; \
-//							uniform vec3 LightDir; \
-//							uniform sampler2D diffuse; \
-//							uniform sampler2D normal; \
-//							void main() { \
-//							mat3 TBN = mat3( \
-//							normalize( vTangent ), \
-//							normalize( vBiTangent ), \
-//							normalize( vNormal )); \
-//							vec3 N = texture(normal, \
-//							vTexCoord).xyz * 2 - 1; \
-//							float d = max( 0, dot( \
-//							normalize( TBN * N ), \
-//							normalize( LightDir ))); \
-//							FragColor = texture(diffuse, vTexCoord); \
-//							FragColor.rgb = FragColor.rgb * d;}";
-//
+							in vec2 vTexCoord; \
+							in vec3 vNormal; \
+							in vec3 vTangent; \
+							in vec3 vBiTangent; \
+							out vec4 FragColor; \
+							uniform vec3 LightDir; \
+							uniform sampler2D diffuse; \
+							uniform sampler2D normal; \
+							void main() { \
+							mat3 TBN = mat3( \
+							normalize( vTangent ), \
+							normalize( vBiTangent ), \
+							normalize( vNormal )); \
+							vec3 N = texture(normal, \
+							vTexCoord).xyz * 2 - 1; \
+							float d = max( 0, dot( \
+							normalize( TBN * N ), \
+							normalize( LightDir ))); \
+							FragColor = texture(diffuse, vTexCoord); \
+							FragColor.rgb = FragColor.rgb * d;}";
+
 //	int success = GL_FALSE;
 //	unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
 //	unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);

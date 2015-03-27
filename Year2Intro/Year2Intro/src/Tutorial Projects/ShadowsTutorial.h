@@ -26,6 +26,9 @@ private:
 	glm::mat4 m_lightMatrix;
 	glm::vec3 m_lightDir;
 	glm::vec3 m_lightColour;
+	
+	glm::mat4 lightProjection;
+	glm::mat4 lightView;
 
 	unsigned int m_vao;
 	unsigned int m_vbo;

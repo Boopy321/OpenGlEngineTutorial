@@ -52,7 +52,7 @@ bool Application::startUp()
 		TwAddVarRW(m_bar, "Clear Colour",
 			TW_TYPE_COLOR4F, &m_clearColour[0], "");
 
-		m_clearColour = vec4(1.0f,1.0f,1.0f,1.0f);
+		m_clearColour = vec4(0.75f,0.75f,0.75f,1.0f);
 		_gameCamera.AddCamSpeedToTwBar(m_bar);
 		/*CurrentProject->AddVarToTwBar(m_bar);*/
 		CurrentProject->AddstuffTwBar(m_bar);
@@ -78,10 +78,11 @@ void Application::update(float deltatime)
 
 void Application::draw(float a_deltatime)
 {	
-	TwDraw();
+	
 	Gizmos::clear();
 	CurrentProject->Draw(_gameCamera,a_deltatime);
 	Gizmos::draw(_gameCamera.getProjectionView());
+	TwDraw();
 }
 
 void Application::shutdown()

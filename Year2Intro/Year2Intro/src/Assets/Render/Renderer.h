@@ -56,9 +56,13 @@ public:
 	unsigned int ReturnProgramShadow();
 	unsigned int ReturnProgramShadowMap();
 	unsigned int ReturnProgramFBX();
-
+	unsigned int ReturnProgramMap();
+	
+	void MapTexture();
 	void DrawShadowCast();
-
+	
+	void DiffuseMapLoad();
+	void NormalMapLoad();
 
 protected:
 	//Variables to contain the shader programs
@@ -70,7 +74,9 @@ protected:
 	unsigned int m_ProgramPostProcess;
 	unsigned int m_ProgramShadow;
 	unsigned int m_ProgramShadowMap;
-	
+	unsigned int m_ProgramMapLoad;
+
+	unsigned int m_texture, m_normalmap;
 
 	ParticleEmittor* m_cpuEmittor;
 

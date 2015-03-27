@@ -8,8 +8,9 @@ out vec4 vShadowCoord;
 
 uniform mat4 ProjectionView;
 uniform mat4 LightMatrix;
+
 void main() {
-vNormal = Normal;
-gl_Position = ProjectionView * Position;
-vShadowCoord = LightMatrix * Position;
+  vNormal = Normal;
+  gl_Position = ProjectionView * Position;
+  vShadowCoord = LightMatrix * Position;
 }

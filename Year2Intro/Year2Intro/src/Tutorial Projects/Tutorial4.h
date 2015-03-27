@@ -21,7 +21,7 @@ public:
 
 	//Tutorial 4 Extras
 	void ShaderProgram();
-	void DiffuseMapLoad();
+	//void DiffuseMapLoad();
 	void NormalMapLoad();
 	void Generate2DObject();
 

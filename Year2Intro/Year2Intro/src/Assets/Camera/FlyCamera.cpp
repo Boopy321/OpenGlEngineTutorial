@@ -47,11 +47,11 @@ void FlyCamera::HandleKeyboardInput(double dt)
 	{
 		moveDir += vRight;
 	}
-	if (glfwGetKey(m_pWindow, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+	if (glfwGetKey(m_pWindow, GLFW_KEY_E) == GLFW_PRESS)
 	{
 		moveDir += glm::vec3(0.0f, 1.0f, 0.0f);
 	}
-	if (glfwGetKey(m_pWindow, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
+	if (glfwGetKey(m_pWindow, GLFW_KEY_Q) == GLFW_PRESS)
 	{
 		moveDir -= glm::vec3(0.0f, 1.0f, 0.0f);
 	}

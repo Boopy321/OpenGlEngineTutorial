@@ -19,12 +19,16 @@ RenderTarget::RenderTarget(int a_height,int a_width)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
 		m_fboTexture, 0);
+
 	glGenRenderbuffers(1, &m_fboDepth);
 	glBindRenderbuffer(GL_RENDERBUFFER, m_fboDepth);
+
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24,
 		m_width, m_height);
+
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
 		GL_RENDERBUFFER, m_fboDepth);
+
 	GLenum drawBuffers[] = { GL_COLOR_ATTACHMENT0 };
 	glDrawBuffers(1, drawBuffers);
 
@@ -92,7 +96,7 @@ void RenderTarget::BindBackBuffer()
 void RenderTarget::BindTexture()
 {
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, m_fboTexture);
+	glBindTexture(GL_TEXTURE_2D, m_fboDepth);
 }
 
 //Creates the mesh for the target to be drawn to.
