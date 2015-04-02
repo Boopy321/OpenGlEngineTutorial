@@ -10,6 +10,7 @@ struct GLFWwindow;
 #include "Tutorial Projects/Tutorial5.h"
 #include "Tutorial Projects\PostProcessingTutorial.h"
 #include "Tutorial Projects\ShadowsTutorial.h"
+#include "Tutorial Projects\ProceduralGenTutorial.h"
 #include "Assets/Camera/FlyCamera.h"
 #include <AntTweakBar.h>
 #include "Assets/InputManager/InputManager.h"
@@ -42,7 +43,7 @@ private:
 
 	TwBar* m_bar;
 
-	ShadowsTutorial* CurrentProject;
+	ProceduralGenTutorial* CurrentProject;
 
 	InputManager m_keyManager;
 

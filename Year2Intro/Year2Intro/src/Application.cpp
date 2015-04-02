@@ -18,10 +18,9 @@ bool Application::startUp()
 {
 	if (glfwInit() == false)
 		return false;
-		
+
 		window = glfwCreateWindow(1280, 720, "Computer Graphics", nullptr, nullptr);
-		
-		
+
 		if (window == nullptr)
 		{
 			glfwTerminate();
@@ -36,12 +35,12 @@ bool Application::startUp()
 			glfwTerminate();
 			return false;
 		}
-		
+		std::cout << "OpenGL loaded" << std::endl;
 		_gameCamera.SetInputWindow(window);		
 		
 		//Load Render into Tutorial
 		m_render = new Renderer();
-		CurrentProject = new ShadowsTutorial(m_render);
+		CurrentProject = new ProceduralGenTutorial(m_render);
 		
 		//AntTweakbar stuff
 		TwInit(TW_OPENGL_CORE, nullptr);
@@ -52,10 +51,10 @@ bool Application::startUp()
 		TwAddVarRW(m_bar, "Clear Colour",
 			TW_TYPE_COLOR4F, &m_clearColour[0], "");
 
-		m_clearColour = vec4(0.75f,0.75f,0.75f,1.0f);
-		_gameCamera.AddCamSpeedToTwBar(m_bar);
-		/*CurrentProject->AddVarToTwBar(m_bar);*/
-		CurrentProject->AddstuffTwBar(m_bar);
+		m_clearColour = vec4(0.0f,0.0f,0.00f,1.0f);
+		//_gameCamera.AddCamSpeedToTwBar(m_bar);
+		///*CurrentProject->AddVarToTwBar(m_bar);*/
+		//CurrentProject->AddstuffTwBar(m_bar);
 		//CurrentProject->ImageLoad()*/;
 		return true;
 }

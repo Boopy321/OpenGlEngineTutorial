@@ -1,7 +1,6 @@
 #version 410
 
-in vec4 colour;
-
 void main()
-{gl_FragColor = colour;
+{
+gl_FragColor = vec4(1,1,1,1);
 }

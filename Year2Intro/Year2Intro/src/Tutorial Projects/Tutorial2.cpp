@@ -27,8 +27,6 @@ Tutorial2::Tutorial2(Renderer* a_render)
 	m_render = a_render;
 	ShaderProgram();
 	m_render->Generate2DObject();
-
-
 }
 
 void Tutorial2::GameLoop()

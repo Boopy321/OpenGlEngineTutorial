@@ -20,18 +20,15 @@ using glm::vec3;
 
 Renderer::Renderer()
 {
-
 	//start up all of the programs here
 	LoadProgram("./data/Tute3VertShader.glvs","./data/Tute3FragShader.glfs",m_ProgramObject);
-	LoadProgram("./data/ParticleTut.vert","./data/ParticleTute.frag",m_ProgramParticle);
+	LoadProgram("./data/Terrain.vert","./data/Terrain.frag",m_ProgramParticle);
 	LoadProgram("./data/RenderShader.vert", "./data/RenderShader.frag", m_ProgramID);
 	LoadProgram("./data/PostProcess.vertex", "./data/PostProcess.Frag", m_ProgramPostProcess);
 	LoadProgram("./data/Shadows.vert", "./data/Shadows.Frag", m_ProgramShadow);
 	LoadProgram("./data/FbxShader.vert", "./data/FbxShader.Frag", m_ProgramFbx);
 	LoadProgram("./data/ShadowMap.vert", "./data/ShadowMap.Frag", m_ProgramShadowMap);
 	LoadProgram("./data/DifNormMapLoader.vert", "./data/DifNormMapLoader.frag", m_ProgramMapLoad);
-	//LoadProgram()
-	StartCpuParticle(10000, 100, 1, 5, 1, 5, 1, 5, glm::vec4(1, 0, 0, 1), glm::vec4(1, 1, 0, 1));
 }
 
 Renderer::~Renderer()
@@ -100,8 +97,6 @@ GLuint Renderer::LoadShaderFromFile(std::string a_path, GLenum  a_shadertype)
 		return shaderID;
 	}
 }
-
-
 
 
 bool Renderer::LoadProgram(std::string a_vertShader, std::string a_fragShader, unsigned int &a_program)

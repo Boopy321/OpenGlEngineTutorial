@@ -82,7 +82,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="dep\aieutilities\Gizmos.cpp" />
-    <ClCompile Include="ProceduralGenTutorial.cpp" />
+    <ClCompile Include="src\Assets\Texture2D\Texture2D.cpp" />
+    <ClCompile Include="src\Tutorial Projects\ProceduralGenTutorial.cpp" />
     <ClCompile Include="src\Tutorial Projects\SideProject.cpp" />
     <ClCompile Include="src\Tutorial Projects\ShadowsTutorial.cpp" />
     <ClCompile Include="src\Tutorial Projects\PostProcessingTutorial.cpp" />
@@ -108,7 +109,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dep\aieutilities\Gizmos.h" />
-    <ClInclude Include="ProceduralGenTutorial.h" />
+    <ClInclude Include="src\Assets\Texture2D\Texture2D.h" />
+    <ClInclude Include="src\Tutorial Projects\ProceduralGenTutorial.h" />
     <ClInclude Include="src\Tutorial Projects\SideProject.h" />
     <ClInclude Include="src\Tutorial Projects\ShadowsTutorial.h" />
     <ClInclude Include="src\Tutorial Projects\PostProcessingTutorial.h" />
