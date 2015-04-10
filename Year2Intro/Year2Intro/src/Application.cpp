@@ -8,9 +8,13 @@
 #include <string>
 #include <fstream>
 #include "Assets\InputManager\InputManager.h"
+#include "Assets\AntTweakBar\AntTweakBar.h"
 
 Application::Application()
 {
+//Window Sizes So i stop killing myself
+	m_wHeight = 720;
+	m_wWidth = 1280;
 	
 }
 
@@ -19,7 +23,7 @@ bool Application::startUp()
 	if (glfwInit() == false)
 		return false;
 
-		window = glfwCreateWindow(1280, 720, "Computer Graphics", nullptr, nullptr);
+		window = glfwCreateWindow(m_wWidth, m_wHeight, "Computer Graphics", nullptr, nullptr);
 
 		if (window == nullptr)
 		{
@@ -40,26 +44,19 @@ bool Application::startUp()
 		
 		//Load Render into Tutorial
 		m_render = new Renderer();
-		CurrentProject = new ProceduralGenTutorial(m_render);
-		
 		//AntTweakbar stuff
-		TwInit(TW_OPENGL_CORE, nullptr);
-		TwWindowSize(1280, 720);
-		m_keyManager.AntBarCallbacks(window);
-		m_bar = TwNewBar("This is the bar");
-
-		TwAddVarRW(m_bar, "Clear Colour",
-			TW_TYPE_COLOR4F, &m_clearColour[0], "");
-
+		m_bar = new AntTweakBar(m_wWidth, m_wHeight, window);
+		m_bar->AddVec4ToTwBar("ColorScheme", &m_clearColour);
+		//Create the current Project
+		CurrentProject = new ProceduralGenTutorial(m_render,m_bar);
+		
+		//Background color 
 		m_clearColour = vec4(0.0f,0.0f,0.00f,1.0f);
-		//_gameCamera.AddCamSpeedToTwBar(m_bar);
-		///*CurrentProject->AddVarToTwBar(m_bar);*/
-		//CurrentProject->AddstuffTwBar(m_bar);
-		//CurrentProject->ImageLoad()*/;
+	
 		return true;
 }
 
-void Application::update(float deltatime)
+void Application::update(float a_deltatime)
 {
 	// Red/ Green/Blue
 	glClearColor(m_clearColour.x, m_clearColour.y, m_clearColour.z,1);
@@ -67,21 +64,32 @@ void Application::update(float deltatime)
 	
 	CurrentProject->GameLoop();
 	//Camera
-	_gameCamera.update(deltatime);
+	_gameCamera.update(a_deltatime);
 	//Current Games Draw
-	draw(deltatime);
+	draw(a_deltatime);
 
 	glfwSwapBuffers(window);
 	glfwPollEvents();
+
+	m_frameElaspedtime += a_deltatime;
+
+	if (m_frameElaspedtime > 1.0f)
+	{
+		m_frameElaspedtime = 0.0f;
+		m_framerate = m_frameCounter;
+		m_frameCounter = 0;
+	}
+
 }
 
 void Application::draw(float a_deltatime)
 {	
-	
+	m_frameCounter++;
+
 	Gizmos::clear();
 	CurrentProject->Draw(_gameCamera,a_deltatime);
 	Gizmos::draw(_gameCamera.getProjectionView());
-	TwDraw();
+	m_bar->Draw();
 }
 
 void Application::shutdown()

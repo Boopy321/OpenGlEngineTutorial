@@ -29,10 +29,13 @@ Renderer::Renderer()
 	LoadProgram("./data/FbxShader.vert", "./data/FbxShader.Frag", m_ProgramFbx);
 	LoadProgram("./data/ShadowMap.vert", "./data/ShadowMap.Frag", m_ProgramShadowMap);
 	LoadProgram("./data/DifNormMapLoader.vert", "./data/DifNormMapLoader.frag", m_ProgramMapLoad);
+	LoadProgram("./data/Terrain.vert", "./data/Terrain.frag", m_programTerrain);
 }
 
 Renderer::~Renderer()
 {
+	
+
 }
 
 void Renderer::Draw(FlyCamera &_gameCamera, float a_deltatime)
@@ -470,6 +473,11 @@ unsigned int Renderer::ReturnProgramMap()
 	return m_ProgramMapLoad;
 }
 
+unsigned int Renderer::ReturnProgramTerrain()
+{
+	return m_programTerrain;
+}
+
 void Renderer::Close()
 {
 	CleanupOpenGlBuffers(m_fbx);
@@ -491,7 +499,8 @@ void Renderer::DrawShadowCast()
 		glDrawElements(GL_TRIANGLES,
 			(unsigned int)mesh->m_indices.size(),
 			GL_UNSIGNED_INT, 0);
-	}
+	}
+
 }
 
 void Renderer::DrawQuad()

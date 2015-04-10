@@ -72,28 +72,6 @@ public:
 	void setMousetoCenter();
 	void SetMousePos(glm::vec2 a_pos);
 
-	void AntBarCallbacks(GLFWwindow* a_window);
-
-	inline static void OnMouseButton(GLFWwindow*, int b, int a, int m) {
-		TwEventMouseButtonGLFW(b, a);
-	}
-	inline static void OnMousePosition(GLFWwindow*, double x, double y) {
-		TwEventMousePosGLFW((int)x, (int)y);
-	}
-	inline static void OnMouseScroll(GLFWwindow*, double x, double y) {
-		TwEventMouseWheelGLFW((int)y);
-	}
-	inline static void OnKey(GLFWwindow*, int k, int s, int a, int m) {
-		TwEventKeyGLFW(k, a);
-	}
-	inline static void OnChar(GLFWwindow*, unsigned int c) {
-		TwEventCharGLFW(c, GLFW_PRESS);
-	}
-	inline static void OnWindowResize(GLFWwindow*, int w, int h) {
-		TwWindowSize(w, h);
-		glViewport(0, 0, w, h);
-	}
-
 private:
 	GLFWwindow* window;
 };

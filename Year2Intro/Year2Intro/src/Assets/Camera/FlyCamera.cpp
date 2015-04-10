@@ -3,12 +3,14 @@
 #include <AntTweakBar.h>
 #include <iostream>
 
+
 FlyCamera::FlyCamera()
 {
 	m_viewTransform = lookAt(vec3(10, 10, 10), vec3(0), vec3(0, 1, 0));
 	m_worldTransform = glm::inverse(m_viewTransform);
 	setPersepective(glm::pi<float>()*0.25, 16 / 9.f, 0.1f, 1000.f);
-	m_fFlySpeed = 10.0f;
+	m_fFlySpeed = 100.f;
+	
 }
 
 
@@ -132,9 +134,3 @@ void FlyCamera::CalculateRoation(glm::vec2 a_Offset)
 }
 
 
-void FlyCamera::AddCamSpeedToTwBar(TwBar* a_bar)
-{
-	//Add the variables for Tweak bar
-	TwAddVarRW(a_bar, "Camera Speed",
-		TW_TYPE_FLOAT, &m_fFlySpeed, "");
-}

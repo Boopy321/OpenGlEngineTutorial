@@ -1,7 +1,7 @@
 #pragma once
 #include "Camera.h"
 #include "GLFW\glfw3.h"
-#include <AntTweakBar.h>
+
 
 class FlyCamera :
 	public Camera
@@ -16,7 +16,7 @@ public:
 	float GetFlySpeed() const { return m_fFlySpeed; }
 	void SetInputWindow(GLFWwindow* pWindow){ m_pWindow = pWindow; }
 
-	void AddCamSpeedToTwBar(TwBar* a_bar);
+
 protected:
 	void HandleKeyboardInput(double dt);
 	void HandleMouseInput(double dt);
@@ -29,5 +29,6 @@ protected:
 	bool m_bViewButtonClicked;
 	double m_dCursorX, m_dCursorY;
 
+	
 };
 

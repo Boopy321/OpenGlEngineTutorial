@@ -17,6 +17,7 @@ struct GLFWwindow;
 #include "Loaders/TinyObjLoader/tiny_obj_loader.h"
 #include "Loaders/TinyObjLoader/TinyObjSideProject.h"
 
+class AntTweakBar;
 
 //Global space so any project can use AntTweakBar
 
@@ -40,8 +41,15 @@ private:
 	void update(float deltatime);
 	void draw(float a_deltatime);
 	void shutdown();
+	
+	float m_frameCounter;
+	float m_framerate;
+	float m_frameElaspedtime;
 
-	TwBar* m_bar;
+	int m_wHeight;
+	int m_wWidth;
+
+	AntTweakBar* m_bar;
 
 	ProceduralGenTutorial* CurrentProject;
 

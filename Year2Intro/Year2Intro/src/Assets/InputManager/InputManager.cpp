@@ -25,13 +25,3 @@ bool InputManager::GetMouseDown(int a_mouseButton)
 {
 	return glfwGetMouseButton(window, a_mouseButton);
 }
-
-void InputManager::AntBarCallbacks(GLFWwindow* a_window)
-{
-	glfwSetMouseButtonCallback(a_window, OnMouseButton);
-	glfwSetCursorPosCallback(a_window, OnMousePosition);
-	glfwSetScrollCallback(a_window, OnMouseScroll);
-	glfwSetKeyCallback(a_window, OnKey);
-	glfwSetCharCallback(a_window, OnChar);
-	glfwSetWindowSizeCallback(a_window, OnWindowResize);		window = a_window;
-}

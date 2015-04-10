@@ -57,6 +57,7 @@ public:
 	unsigned int ReturnProgramShadowMap();
 	unsigned int ReturnProgramFBX();
 	unsigned int ReturnProgramMap();
+	unsigned int ReturnProgramTerrain();
 	
 	void MapTexture();
 	void DrawShadowCast();
@@ -75,6 +76,7 @@ protected:
 	unsigned int m_ProgramShadow;
 	unsigned int m_ProgramShadowMap;
 	unsigned int m_ProgramMapLoad;
+	unsigned int m_programTerrain;
 
 	unsigned int m_texture, m_normalmap;
 

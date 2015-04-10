@@ -90,6 +90,9 @@
     <ClCompile Include="src\Assets\Texture2D\Texture2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Assets\AntTweakBar\AntTweakBar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dep\aieutilities\Gizmos.h">
@@ -174,6 +177,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Assets\Texture2D\Texture2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Assets\AntTweakBar\AntTweakBar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
