@@ -4,15 +4,18 @@
 #include "FBXModel.h"
 #include <FBXFile.h>
 #include <iostream>
+#include <stb_image.h>
 
 using namespace std;
 using glm::vec4;
 using glm::vec3;
 
-FBXModel::FBXModel(const char* string)
+FBXModel::FBXModel(const char* path,const char* diffuse)
 {
-	LoadFBX(string);
+	
+	LoadFBX(path);
 	CreateOpenGLBuffers();
+	DiffuseMapLoad(diffuse);
 }
 
 
@@ -22,13 +25,20 @@ FBXModel::~FBXModel()
 }
 
 
-void FBXModel::FBXDraw()
+void FBXModel::FBXDraw(unsigned int a_program)
 {
+	
+	int loc = glGetUniformLocation(a_program, "diffuseTex");
+	glUniform1i(loc, 1);
 
 	for (unsigned int i = 0; i < m_fbx->getMeshCount(); ++i)
 	{
 		FBXMeshNode* mesh = m_fbx->getMeshByIndex(i);
 		unsigned int* glData = (unsigned int*)mesh->m_userData;
+		
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, m_diffuse);
+
 		glBindVertexArray(glData[0]);
 		glDrawElements(GL_TRIANGLES,
 			(unsigned int)mesh->m_indices.size(), GL_UNSIGNED_INT, 0);
@@ -71,6 +81,12 @@ void FBXModel::CreateOpenGLBuffers()
 			sizeof(FBXVertex),
 			((char*)0) + FBXVertex::NormalOffset);
 
+		glEnableVertexAttribArray(2); // TexCoord
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE,
+			sizeof(FBXVertex),
+			((char*)0) + FBXVertex::TexCoord1Offset);
+
+
 		glBindVertexArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -109,6 +125,25 @@ void FBXModel::LoadFBX(const char* string)
 		cerr << "FBX load Fail" << endl;
 	}
 
-
+	
 }
+
+void FBXModel::DiffuseMapLoad(const char* string)
+{
+	int imageWidth = 0, imageHeight = 0, imageFormat = 0;
+	unsigned char* data;
+
+	//load Diffuse map
+	data = stbi_load(string,
+		&imageWidth, &imageHeight, &imageFormat, STBI_default);
+
+	glGenTextures(1, &m_diffuse);
+	glBindTexture(GL_TEXTURE_2D, m_diffuse);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imageWidth, imageHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+	stbi_image_free(data);
+}
+
 

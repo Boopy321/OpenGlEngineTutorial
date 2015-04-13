@@ -9,5 +9,5 @@ uniform sampler2D box_texture;
   void main()
   {
       out_color = texture(box_texture, frag_texcoord);
-	  out_color.a = 1; 
+	  out_color.a = 1;
   }

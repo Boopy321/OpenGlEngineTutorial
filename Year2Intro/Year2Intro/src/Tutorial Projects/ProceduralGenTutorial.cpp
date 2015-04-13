@@ -33,7 +33,7 @@ ProceduralGenTutorial::ProceduralGenTutorial(Renderer* a_render,AntTweakBar* a_b
 : m_crate("./data/crate.png")
 {
 	m_render = a_render;
-	m_grid = 100;
+	m_grid = 300;
 	m_lightDirection = glm::vec3(0, 1, 0);
 	m_amplitude = 3.f;
 	m_persistence = 0.3f;
@@ -42,7 +42,7 @@ ProceduralGenTutorial::ProceduralGenTutorial(Renderer* a_render,AntTweakBar* a_b
 	
 	float *perlin_data = new float[m_grid * m_grid];
 
-	m_bunny = new FBXModel("./data/Dragon.fbx");
+	m_bunny = new FBXModel("./data/models/Lucy.fbx","./data/crate.png");
 	
 	CreatePlane();
 	m_bar->RegenerateTerrain();
@@ -75,10 +75,11 @@ void ProceduralGenTutorial::Draw(FlyCamera &_gameCamera, float a_deltatime)
 	loc = glGetUniformLocation(m_program, "LightDir");
 	glUniform3fv(loc, 1, &m_lightDirection[0]);
 
-	m_bunny->FBXDraw();
+	m_bunny->FBXDraw(m_program);
 
 	m_program = m_render->ReturnProgramTerrain();
 
+	//Particle Emitter
 	glUseProgram(m_program);
 
 	glActiveTexture(GL_TEXTURE0);

@@ -1,12 +1,13 @@
 #version 410
 
 in vec4 vNormal;
-
+in vec2 frag_texcoord;
 out vec4 FragColor;
 
 uniform vec3 LightDir;
+uniform sampler2D diffuseTex;
 
 void main() {
-float d = max(0,dot( normalize(vNormal.xyz),LightDir));
-FragColor = vec4(d,d,d,1);
+
+FragColor = texture(diffuseTex,frag_texcoord) * vec4(LightDir,1);
 }

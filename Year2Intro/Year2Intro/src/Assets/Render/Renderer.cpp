@@ -420,23 +420,6 @@ void Renderer::DrawQuad()
 
 }
 
-void Renderer::DiffuseMapLoad()
-{
-	int imageWidth = 0, imageHeight = 0, imageFormat = 0;
-	unsigned char* data;
-
-	//load Diffuse map
-	data = stbi_load("./data/model/¢ú-ÚÁ+¦÷/001/00002671/Texture2D/Diffuse_001.tga",
-		&imageWidth, &imageHeight, &imageFormat, STBI_default);
-
-	glGenTextures(1, &m_texture);
-	glBindTexture(GL_TEXTURE_2D, m_texture);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imageWidth, imageHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
-	stbi_image_free(data);
-}
 
 void Renderer::NormalMapLoad()
 {
