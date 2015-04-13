@@ -35,7 +35,7 @@ void AntTweakBar::AntBarCallbacks(GLFWwindow* a_window)
 	glfwSetCharCallback(a_window, OnChar);
 	glfwSetWindowSizeCallback(a_window, OnWindowResize);
 
-	RegenerateTerrain();
+
 	window = a_window;
 }
 
@@ -83,11 +83,20 @@ void AntTweakBar::AddVec4ToTwBar(std::string a_name,glm::vec4 *a_vec4)
 		TW_TYPE_COLOR4F, a_vec4, "");
 
 }
+
+void AntTweakBar::AddBoolToTwBar(std::string a_name, bool *a_bool)
+{
+	//Add the variables for Tweak bar
+	TwAddVarRW(m_bar, a_name.c_str(),
+		TW_TYPE_BOOL32, a_bool, "");
+
+}
+
 void AntTweakBar::RegenerateTerrain()
 {
 	TwAddButton(m_bar, "Generate Terrain", 
-	[](void* a_clientData){ProceduralGenTutorial::GenerateTerrain();},
-	NULL, "label=Regenerate Terrain?"
+	[](void* a_clientData){ProceduralGenTutorial::GenTerrain();},
+	NULL, ""
 	);
 }
 

@@ -42,9 +42,9 @@ void Renderer::Draw(FlyCamera &_gameCamera, float a_deltatime)
 {
 	//Draws Particles
 	glUseProgram(m_ProgramParticle);
-	m_cpuEmittor->draw();
+	/*m_cpuEmittor->draw();
 	m_cpuEmittor->update(a_deltatime, _gameCamera.getProjection());
-	
+	*/
 	/*glUseProgram(m_ProgramID);*/
 	
 
