@@ -93,6 +93,9 @@
     <ClCompile Include="src\Assets\AntTweakBar\AntTweakBar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Assets\FBXModel\FBXModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dep\aieutilities\Gizmos.h">
@@ -180,6 +183,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Assets\AntTweakBar\AntTweakBar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Assets\FBXModel\FBXModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

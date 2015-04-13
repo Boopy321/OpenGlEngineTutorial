@@ -24,7 +24,6 @@ public:
 	
 	void RegenerateTerrain();
 
-
 	//To Call the generate function
 	static void StaticFunction();
 	

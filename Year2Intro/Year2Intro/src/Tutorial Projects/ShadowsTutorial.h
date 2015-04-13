@@ -4,6 +4,7 @@ class Renderer;
 #include <glm\glm.hpp>
 class FlyCamera;
 #include <AntTweakBar.h>
+class FBXModel;
 
 class ShadowsTutorial
 {
@@ -35,5 +36,6 @@ private:
 	
 	float m_spec;
 
+	FBXModel* m_dragon;
 };
 

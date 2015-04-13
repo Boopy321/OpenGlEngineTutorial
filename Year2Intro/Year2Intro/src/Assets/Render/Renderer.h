@@ -10,8 +10,7 @@ public:
 	~Renderer();
 	//Shader Code
 
-	void CreateOpenGLBuffers(FBXFile* fbx);
-	void CleanupOpenGlBuffers(FBXFile* fbx);
+	
 
 	void Generate2DObject();
 

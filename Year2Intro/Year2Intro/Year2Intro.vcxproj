@@ -81,6 +81,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Assets\FBXModel\FBXModel.cpp" />
     <ClCompile Include="src\Assets\AntTweakBar\AntTweakBar.cpp" />
     <ClCompile Include="dep\aieutilities\Gizmos.cpp" />
     <ClCompile Include="src\Assets\Texture2D\Texture2D.cpp" />
@@ -109,6 +110,7 @@
     <ClCompile Include="src\Tutorial Projects\Tutorial5.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Assets\FBXModel\FBXModel.h" />
     <ClInclude Include="src\Assets\AntTweakBar\AntTweakBar.h" />
     <ClInclude Include="dep\aieutilities\Gizmos.h" />
     <ClInclude Include="src\Assets\Texture2D\Texture2D.h" />

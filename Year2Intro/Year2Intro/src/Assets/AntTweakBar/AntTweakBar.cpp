@@ -42,7 +42,8 @@ void AntTweakBar::AntBarCallbacks(GLFWwindow* a_window)
 AntTweakBar::~AntTweakBar()
 {
 	TwDeleteAllBars();
-	TwTerminate();
+	TwTerminate();
+
 }
 
 void AntTweakBar::Draw()
@@ -68,7 +69,7 @@ void AntTweakBar::AddIntToTwBar(std::string a_name,int *a_var)
 }
 
 //Allows Vec3 Direction Vectors to be adjusted
-void AntTweakBar::AddVec3ToTwBar(std::string a_name,glm::vec3 *a_vec3)
+void AntTweakBar::AddVec3ToTwBar(std::string a_name, glm::vec3 *a_vec3)
 {
 	//Add the variables for Tweak bar
 	TwAddVarRW(m_bar, a_name.c_str(),

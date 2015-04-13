@@ -8,9 +8,9 @@
 #include <glm/ext.hpp>
 #include "VertexStructure.h"
 #include "Loaders\ObjLoader\ObjectLoader.h"
-#include <FBXFile.h>
+
 #include <iostream>
-#include <fstream>]
+#include <fstream>
 #include <assert.h>
 #include "Assets\CpuParticle\ParticleEmittor.h"
 
@@ -192,83 +192,6 @@ unsigned int Renderer::LoadObject(const char* filepath)
 	return indexData;
 }
 
-void Renderer::LoadFBX(const char* string)
-{
-	m_fbx = new FBXFile();
-	if (m_fbx->load(string))
-	{
-		CreateOpenGLBuffers(m_fbx);
-		DiffuseMapLoad();
-		NormalMapLoad();
-	}
-	else
-	{
-		cerr << "FBX load Fail" << endl;
-	}
-	
-	
-}
-
-void Renderer::CreateOpenGLBuffers(FBXFile* fbx)
-{
-	//Checks if there is a mesh
-	assert(fbx->getMeshCount() > 0);
-
-	for (unsigned int i = 0; i < fbx->getMeshCount(); ++i)
-	{
-		FBXMeshNode* mesh = fbx->getMeshByIndex(i);
-		// storage for the opengl data in 3 unsigned int
-		unsigned int* glData = new unsigned int[3];
-		glGenVertexArrays(1, &glData[0]);
-		glBindVertexArray(glData[0]);
-
-		glGenBuffers(1, &glData[1]);
-		glGenBuffers(1, &glData[2]);
-
-		glBindBuffer(GL_ARRAY_BUFFER, glData[1]);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, glData[2]);
-
-		glBufferData(GL_ARRAY_BUFFER,
-			mesh->m_vertices.size() * sizeof(FBXVertex),
-			mesh->m_vertices.data(), GL_STATIC_DRAW);
-
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-			mesh->m_indices.size() * sizeof(unsigned int),
-			mesh->m_indices.data(), GL_STATIC_DRAW);
-
-		glEnableVertexAttribArray(0); // position
-		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE,
-			sizeof(FBXVertex), 0);
-
-		glEnableVertexAttribArray(1); // normal
-		glVertexAttribPointer(1, 4, GL_FLOAT, GL_TRUE,
-			sizeof(FBXVertex),
-			((char*)0) + FBXVertex::NormalOffset);
-
-		glBindVertexArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-		mesh->m_userData = glData;
-	}
-
-}
-//Cleans up the fbx file
-void Renderer::CleanupOpenGlBuffers(FBXFile* fbx)
-{
-	for (unsigned int i = 0; i < fbx->getMeshCount(); ++i)
-	{
-
-		FBXMeshNode* mesh = fbx->getMeshByIndex(i);
-
-		unsigned int* glData = (unsigned int*)mesh->m_userData;
-
-		glDeleteVertexArrays(1, &glData[0]);
-		glDeleteBuffers(1, &glData[1]);
-		glDeleteBuffers(1, &glData[2]);
-	}
-}
-
 //Predefined vertex Data. Allows Creation of a 2D Object
 void Renderer::Generate2DObject()
 {
@@ -326,19 +249,7 @@ void Renderer::Generate2DObject()
 //}
 
 
-void Renderer::FBXDraw()
-{
-	for (unsigned int i = 0; i < m_fbx->getMeshCount(); ++i)
-	{
-		FBXMeshNode* mesh = m_fbx->getMeshByIndex(i);
-		unsigned int* glData = (unsigned int*)mesh->m_userData;
-		glBindVertexArray(glData[0]);
-		glDrawElements(GL_TRIANGLES,
-			(unsigned int)mesh->m_indices.size(), GL_UNSIGNED_INT, 0);
-	}
 
-
-}
 
 //Starts up the particle emittor based of the data given
 //returns the emittor so draw and update can be controlled.
@@ -468,6 +379,7 @@ unsigned int Renderer::ReturnProgramFBX()
 	return m_ProgramFbx;
 }
 
+
 unsigned int Renderer::ReturnProgramMap()
 {
 	return m_ProgramMapLoad;
@@ -480,7 +392,7 @@ unsigned int Renderer::ReturnProgramTerrain()
 
 void Renderer::Close()
 {
-	CleanupOpenGlBuffers(m_fbx);
+	
 	glDeleteProgram(m_ProgramID);
 	glDeleteProgram(m_ProgramParticle);
 	glDeleteProgram(m_ProgramObject);

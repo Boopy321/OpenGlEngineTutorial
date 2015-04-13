@@ -13,6 +13,7 @@
 #include <glm\gtc\noise.hpp>
 #include "Assets\Texture2D\Texture2D.h"
 #include <vector>
+#include "Assets\FBXModel\FBXModel.h"
 #include "Assets\AntTweakBar\AntTweakBar.h"
 
 using glm::vec2;
@@ -32,21 +33,23 @@ ProceduralGenTutorial::ProceduralGenTutorial(Renderer* a_render,AntTweakBar* a_b
 : m_crate("./data/crate.png")
 {
 	m_render = a_render;
-	m_grid = 150;
-	
+	m_grid = 100;
+	m_lightDirection = glm::vec3(0, 1, 0);
 	m_amplitude = 3.f;
 	m_persistence = 0.3f;
 	m_bar = a_bar;
-
-	m_indexData = new unsigned int[(m_grid - 1) *
-		(m_grid - 1) * 6];
+	
+	
 	float *perlin_data = new float[m_grid * m_grid];
 
+	m_bunny = new FBXModel("./data/Dragon.fbx");
+	
 	CreatePlane();
 	m_bar->RegenerateTerrain();
 	m_bar->AddFloatToTwBar("Amplitude", &m_amplitude);
 	m_bar->AddFloatToTwBar("Persistence", &m_persistence);
 	m_bar->AddBoolToTwBar("Regenerate?", &m_renegerate);
+	m_bar->AddVec3ToTwBar("m_lightDirection", &m_lightDirection);
 	glGenTextures(1, &m_perlin_texture);
 
 }
@@ -62,20 +65,28 @@ ProceduralGenTutorial::~ProceduralGenTutorial()
 void ProceduralGenTutorial::Draw(FlyCamera &_gameCamera, float a_deltatime)
 {
 	Gizmos::addTransform(glm::mat4(1), 5.0f);
+	//FBX Model stuff
+	unsigned int m_program = m_render->ReturnProgramFBX();
+	glUseProgram(m_program);
 
-	unsigned int m_program = m_render->ReturnProgramTerrain();
+	int loc = glGetUniformLocation(m_program, "ProjectionView");
+	glUniformMatrix4fv(loc, 1, GL_FALSE, &_gameCamera.getProjectionView()[0][0]);
 
-	
-	
+	loc = glGetUniformLocation(m_program, "LightDir");
+	glUniform3fv(loc, 1, &m_lightDirection[0]);
+
+	m_bunny->FBXDraw();
+
+	m_program = m_render->ReturnProgramTerrain();
+
 	glUseProgram(m_program);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_perlin_texture);
 
 	m_crate.Bind(1);
-	
 
-	int loc = glGetUniformLocation(m_program, "ProjectionView");
+	loc = glGetUniformLocation(m_program, "ProjectionView");
 	glUniformMatrix4fv(loc, 1, GL_FALSE, &_gameCamera.getProjectionView()[0][0]);
 
 	loc = glGetUniformLocation(m_program, "perlin_texture");
@@ -84,10 +95,13 @@ void ProceduralGenTutorial::Draw(FlyCamera &_gameCamera, float a_deltatime)
 	loc = glGetUniformLocation(m_program, "box_texture");
 	glUniform1i(loc, 1);
 
+	
+
 	glBindVertexArray(m_vao);
 	unsigned int indexCount = (m_grid - 1) * (m_grid - 1) * 6;
 
 	glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
+
 }
 
 void ProceduralGenTutorial::GameLoop()
@@ -107,6 +121,9 @@ void ProceduralGenTutorial::CreatePlane()
 
 	int count = 0;
 
+	glm::vec2 normal = glm::vec2((float)(150 / m_grid), (float)(150 / m_grid));
+	m_indexData = new unsigned int[(m_grid - 1) *
+		(m_grid - 1) * 6];
 
 	//rows
 	for (int rows = 0; rows < m_grid; rows++)
@@ -115,7 +132,10 @@ void ProceduralGenTutorial::CreatePlane()
 		for (int cols = 0; cols < m_grid; cols++)
 		{
 			m_verts[rows * m_grid + cols].Position = glm::vec4((float)cols - (m_grid / 2), 0, (float)rows - (m_grid / 2), 1);
-			m_verts[rows * m_grid + cols].UV = glm::vec2((float)cols* 0.1f, (float)rows * 0.1f);
+			m_verts[rows * m_grid + cols].Normal = glm::vec3(0, 0, 0);
+			//Tex Coords
+		
+			m_verts[rows * m_grid + cols].UV = glm::vec2(((float)cols / (float)m_grid), ((float)rows / (float)m_grid));
 
 			count++;
 		}
@@ -142,7 +162,8 @@ void ProceduralGenTutorial::CreatePlane()
 
 
 	//Places the data into the buffers
-	CreateOpenGlBuffers(m_verts, indexData);
+	CreateOpenGlBuffers(m_verts, m_indexData);
+	GenNormalLoop();
 
 }
 
@@ -162,14 +183,14 @@ void ProceduralGenTutorial::CreateOpenGlBuffers(std::vector<gridVerts> a_pVertex
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE,
 		sizeof(gridVerts), 0);
-	// UV
+	// Normal
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(gridVerts),
-		(void*)(sizeof(glm::vec4)));
-
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE , sizeof(gridVerts),
+		(void*)offsetof(gridVerts, Normal));
+	// UV
 	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(gridVerts), (void*)(sizeof(glm::vec4) + sizeof(glm::vec3)));
-		
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(gridVerts), (void*)offsetof(gridVerts, UV));
+	
 	//Indics
 	glGenBuffers(1, &m_ibo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo	);
@@ -187,7 +208,7 @@ void ProceduralGenTutorial::GenerateTerrain()
 {
 	
 	GeneratePerlin();
-	GenNormalLoop();
+	
 	DrawNormals();
 	m_renegerate = false;
 }
@@ -210,12 +231,12 @@ void ProceduralGenTutorial::GeneratePerlin()
 			float amplitude = m_amplitude;
 			float persistence = m_persistence;
 			perlin_data[y * dims + x] = 0;
-			//glm::perlin(vec2(x, y) * scale) * 0.5f + 0.5f;
+			glm::perlin(vec2(x, y) * scale) * 0.5f + 0.5f;
 
 			for (int o = 0; o < m_octaves; ++o)
 			{
 				float freq = powf(2, (float)o);
-				float perlin_sample = glm::perlin(vec2((float)x, (float)y)* scale * freq) * 0.5f + 0.5f; \
+				float perlin_sample = glm::perlin(vec2((float)x, (float)y)* scale * freq) * 0.5f + 0.5f;
 
 					perlin_data[y* dims + x] += perlin_sample * amplitude;
 				amplitude *= persistence;

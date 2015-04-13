@@ -3,10 +3,11 @@
 class gridVerts;
 class Renderer;
 class FlyCamera;
+class FBXModel;
 class AntTweakBar;
 #include <vector>
 #include <Assets\Texture2D\Texture2D.h>
-
+#include <glm\glm.hpp>
 
 class ProceduralGenTutorial
 {
@@ -35,13 +36,20 @@ private:
 	std::vector<gridVerts> m_verts;
 	Texture2D m_crate;
 	AntTweakBar* m_bar;
-	static float m_height;
+	
+	//FBXModel m_dragon;
+	FBXModel* m_bunny;
+	//FBXModel m_dragon;
+	
+	glm::vec3 m_lightDirection;
+
 	unsigned int* m_indexData;
 	unsigned int m_perlin_texture;
 	int m_grid;
 	float m_amplitude;
 	float m_persistence;
 	int m_octaves;
-	static bool m_renegerate;
 
+	static bool m_renegerate;
+	static float m_height;
 };
