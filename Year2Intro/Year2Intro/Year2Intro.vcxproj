@@ -108,6 +108,7 @@
     <ClCompile Include="src\Tutorial Projects\Tutorial4.cpp" />
     <ClCompile Include="src\Loaders\TinyObjLoader\TinyObjSideProject.cpp" />
     <ClCompile Include="src\Tutorial Projects\Tutorial5.cpp" />
+    <ClCompile Include="src\Assets\FBXModel\Trees\Trees.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Assets\FBXModel\FBXModel.h" />
@@ -140,6 +141,7 @@
     <ClInclude Include="src\Loaders\TinyObjLoader\TinyObjSideProject.h" />
     <ClInclude Include="src\Tutorial Projects\Tutorial5.h" />
     <ClInclude Include="src\Tutorial Projects\TutorialBaseClass.h" />
+    <ClInclude Include="src\Assets\FBXModel\Trees\Trees.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

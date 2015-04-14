@@ -1,13 +1,17 @@
 #version 410
 
-in vec4 vNormal;
-in vec2 frag_texcoord;
+in vec3 vNormal;
+in vec2 vTexCoord;
+
 out vec4 FragColor;
 
 uniform vec3 LightDir;
 uniform sampler2D diffuseTex;
 
-void main() {
+void main() 
+{
+	float diffuseLighting = dot(-LightDir, normalize(vNormal));
+		
+	FragColor = texture(diffuseTex, vTexCoord) * diffuseLighting;
+};
 
-FragColor = texture(diffuseTex,frag_texcoord) * vec4(LightDir,1);
-}

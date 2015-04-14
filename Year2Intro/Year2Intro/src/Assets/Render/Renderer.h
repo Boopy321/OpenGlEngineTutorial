@@ -57,7 +57,8 @@ public:
 	unsigned int ReturnProgramFBX();
 	unsigned int ReturnProgramMap();
 	unsigned int ReturnProgramTerrain();
-	
+	unsigned int ReturnProgramFBXnoTex();
+
 	void MapTexture();
 	void DrawShadowCast();
 	
@@ -76,7 +77,7 @@ protected:
 	unsigned int m_ProgramShadowMap;
 	unsigned int m_ProgramMapLoad;
 	unsigned int m_programTerrain;
-
+	unsigned int m_programFBXnoTex;
 	unsigned int m_texture, m_normalmap;
 
 	ParticleEmittor* m_cpuEmittor;

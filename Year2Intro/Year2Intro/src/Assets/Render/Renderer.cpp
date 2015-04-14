@@ -30,6 +30,7 @@ Renderer::Renderer()
 	LoadProgram("./data/ShadowMap.vert", "./data/ShadowMap.Frag", m_ProgramShadowMap);
 	LoadProgram("./data/DifNormMapLoader.vert", "./data/DifNormMapLoader.frag", m_ProgramMapLoad);
 	LoadProgram("./data/Terrain.vert", "./data/Terrain.frag", m_programTerrain);
+	LoadProgram("./data/FBXNoTexture.vert", "./data/FBXNoTexture.frag", m_programFBXnoTex);
 }
 
 Renderer::~Renderer()
@@ -388,6 +389,11 @@ unsigned int Renderer::ReturnProgramMap()
 unsigned int Renderer::ReturnProgramTerrain()
 {
 	return m_programTerrain;
+}
+
+unsigned int Renderer::ReturnProgramFBXnoTex()
+{
+	return m_programFBXnoTex;
 }
 
 void Renderer::Close()

@@ -36,25 +36,6 @@ void Tutorial4::ImageLoad()
 }
 
 
-
-void Tutorial4::NormalMapLoad()
-{
-	//load Normal Map
-	int imageWidth = 0, imageHeight = 0, imageFormat = 0;
-	unsigned char* data;
-
-	data = stbi_load("./data/textures/rock_normal.tga",
-		&imageWidth, &imageHeight, &imageFormat, STBI_default);
-
-	glGenTextures(1, &m_normalmap);
-	glBindTexture(GL_TEXTURE_2D, m_normalmap);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imageWidth, imageHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
-	stbi_image_free(data);
-}
-
 void Tutorial4::Draw(FlyCamera &_gameCamera, float a_deltatime)
 {
 	Gizmos::addTransform(glm::mat4(1), 5.0f);
@@ -80,9 +61,7 @@ void Tutorial4::Draw(FlyCamera &_gameCamera, float a_deltatime)
 	glUniform1i(loc, 1);
 
 
-	vec3 light(sin(glfwGetTime()), 1, cos(glfwGetTime()));
-	loc = glGetUniformLocation(m_program, "LightDir");
-	glUniform3f(loc, light.x, light.y, light.z);
+
 
 	glBindVertexArray(m_VAO);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

@@ -5,17 +5,18 @@
 #include <FBXFile.h>
 #include <iostream>
 #include <stb_image.h>
+#include "Assets\Camera\FlyCamera.h"
+#include "Assets\Render\Renderer.h"
 
 using namespace std;
 using glm::vec4;
 using glm::vec3;
 
-FBXModel::FBXModel(const char* path,const char* diffuse)
+FBXModel::FBXModel(const char* path)
 {
-	
 	LoadFBX(path);
 	CreateOpenGLBuffers();
-	DiffuseMapLoad(diffuse);
+	m_fbx->initialiseOpenGLTextures();
 }
 
 
@@ -25,23 +26,62 @@ FBXModel::~FBXModel()
 }
 
 
-void FBXModel::FBXDraw(unsigned int a_program)
+void FBXModel::FBXDraw(unsigned int a_program, Renderer* a_render, glm::vec3 &a_light, FlyCamera &_gameCamera,glm::mat4 &location)
 {
-	
-	int loc = glGetUniformLocation(a_program, "diffuseTex");
-	glUniform1i(loc, 1);
 
+
+	////glCullFace(GL_BACK);
+	////glEnable(GL_CULL_FACE);
+	//Turn off when rendering models
 	for (unsigned int i = 0; i < m_fbx->getMeshCount(); ++i)
 	{
 		FBXMeshNode* mesh = m_fbx->getMeshByIndex(i);
 		unsigned int* glData = (unsigned int*)mesh->m_userData;
 		
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, m_diffuse);
+		FBXMaterial* material = mesh->m_material;
 
+		FBXTexture* diffuse = material->textures[material->DiffuseTexture];
+
+		if (diffuse != nullptr)
+		{
+			a_program = a_render->ReturnProgramFBXnoTex();
+			glUseProgram(a_program);
+
+			int loc = glGetUniformLocation(a_program, "MVP");
+			glUniformMatrix4fv(loc, 1, GL_FALSE, &_gameCamera.getProjectionView()[0][0]);
+
+			loc = glGetUniformLocation(a_program, "LightDir");
+			glUniform3fv(loc, 1, &a_light[0]);
+
+			loc = glGetUniformLocation(a_program, "Diffuse");
+			glUniform4fv(loc, 1, &material->diffuse[0]);
+
+			loc = glGetUniformLocation(a_program, "LightDir");
+			glUniform1i(loc, 1);
+
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, diffuse->handle);
+		}
+		else
+		{
+			a_program = a_render->ReturnProgramFBX();
+			glUseProgram(a_program);
+
+			int loc = glGetUniformLocation(a_program, "ProjectionView");
+			glUniformMatrix4fv(loc, 1, GL_FALSE, &_gameCamera.getProjectionView()[0][0]);
+
+			loc = glGetUniformLocation(a_program, "LightDir");
+			glUniform3fv(loc, 1, &a_light[0]);
+
+			loc = glGetUniformLocation(a_program, "box_texture");
+			glUniform1i(loc, 0);
+
+		}
+			
 		glBindVertexArray(glData[0]);
+	
 		glDrawElements(GL_TRIANGLES,
-			(unsigned int)mesh->m_indices.size(), GL_UNSIGNED_INT, 0);
+			(unsigned int)mesh->m_indices.size() , GL_UNSIGNED_INT, 0);
 	}
 }
 
@@ -82,7 +122,7 @@ void FBXModel::CreateOpenGLBuffers()
 			((char*)0) + FBXVertex::NormalOffset);
 
 		glEnableVertexAttribArray(2); // TexCoord
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE,
+		glVertexAttribPointer(2, 2,GL_FLOAT, GL_FALSE,
 			sizeof(FBXVertex),
 			((char*)0) + FBXVertex::TexCoord1Offset);
 
@@ -128,22 +168,10 @@ void FBXModel::LoadFBX(const char* string)
 	
 }
 
-void FBXModel::DiffuseMapLoad(const char* string)
+void FBXModel::AdjustPosition(FlyCamera &a_camera)
 {
-	int imageWidth = 0, imageHeight = 0, imageFormat = 0;
-	unsigned char* data;
 
-	//load Diffuse map
-	data = stbi_load(string,
-		&imageWidth, &imageHeight, &imageFormat, STBI_default);
 
-	glGenTextures(1, &m_diffuse);
-	glBindTexture(GL_TEXTURE_2D, m_diffuse);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imageWidth, imageHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
-	stbi_image_free(data);
 }
 
 
