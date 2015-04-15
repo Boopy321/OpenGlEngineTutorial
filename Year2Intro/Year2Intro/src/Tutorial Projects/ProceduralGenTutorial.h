@@ -6,6 +6,7 @@ class FlyCamera;
 class FBXModel;
 class Tree;
 class AntTweakBar;
+class Light;
 #include <vector>
 #include <Assets\Texture2D\Texture2D.h>
 #include <glm\glm.hpp>
@@ -13,7 +14,7 @@ class AntTweakBar;
 class ProceduralGenTutorial
 {
 public:
-	ProceduralGenTutorial(Renderer* a_render, AntTweakBar* a_bar);
+	ProceduralGenTutorial(Renderer* a_render, AntTweakBar* a_bar, Light* a_light);
 	~ProceduralGenTutorial();
 
 	void Draw(FlyCamera &_gameCamera, float a_deltatime);
@@ -41,6 +42,10 @@ private:
 	Texture2D m_crate;
 	AntTweakBar* m_bar;
 	
+	Light* m_light;
+	
+	glm::vec3 m_lightdir;
+
 	//FBXModel m_dragon;
 	FBXModel* m_tree;
 	//FBXModel m_dragon;
@@ -55,7 +60,7 @@ private:
 
 	float m_amplitude;
 	float m_persistence;
-
+	float m_seed;
 	
 	float m_scalar;
 	int m_grid;

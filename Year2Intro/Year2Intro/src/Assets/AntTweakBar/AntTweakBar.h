@@ -2,7 +2,7 @@
 
 typedef struct CTwBar TwBar;
 #include "GLFW\glfw3.h"
-
+#include <string>
 
 class AntTweakBar
 {
@@ -22,6 +22,8 @@ public:
 	void AddVec3ToTwBar(std::string a_name, glm::vec3 *a_vec3);
 	void AddVec4ToTwBar(std::string a_name, glm::vec4 *a_vec4);
 	
+
+	void ChangeLightDir();
 	void RegenerateTerrain();
 
 	//To Call the generate function

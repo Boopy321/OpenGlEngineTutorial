@@ -6,7 +6,8 @@ layout(location=2) in vec2 TexCoord;
 
 out vec3 vNormal;
 out vec2 vTexCoord;
-
+out vec3 vPosition;
+out vec3 vProjectCam;
 
 uniform mat4 MVP;
 
@@ -14,7 +15,6 @@ void main()
 {
 	vTexCoord = TexCoord;
 	vNormal = Normal.xyz;
-
+	vPosition = Position.xyz;
 	gl_Position = MVP*Position;
-
 }

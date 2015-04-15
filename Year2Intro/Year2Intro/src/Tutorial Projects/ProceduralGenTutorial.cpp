@@ -17,6 +17,7 @@
 #include "Assets\AntTweakBar\AntTweakBar.h"
 #include "Assets\FBXModel\Trees\Trees.h"
 #include "Assets\GpuParticle\GpuParticleEmitter.h"
+#include "Assets\Light\Light.h"
 
 using glm::vec2;
 
@@ -31,31 +32,35 @@ struct gridVerts
 
 };
 
-ProceduralGenTutorial::ProceduralGenTutorial(Renderer* a_render,AntTweakBar* a_bar)
+ProceduralGenTutorial::ProceduralGenTutorial(Renderer* a_render,AntTweakBar* a_bar,Light* a_light)
 : m_crate("./data/crate.png")
 {
 	m_render = a_render;
 	m_grid = 100;
 	m_lightDirection = glm::vec3(0, 1, 0);
-	m_amplitude = 3.f;
+	m_amplitude = 6.f;
 	m_persistence = 0.3f;
 	m_bar = a_bar;
 	m_scalar = 3.0f;
 	m_treelimit = 50;
 	m_treeCount = 20;
-
-	
-	float *perlin_data = new float[m_grid * m_grid];
+	m_seed = 10000;
+	m_light = a_light;
+	m_lightdir = m_light->getLightDir();
 
 	m_tree = new FBXModel("./data/models/Tree/treeplan1.fbx");
 	
 	CreatePlane();
 	m_bar->RegenerateTerrain();
+	m_bar->AddFloatToTwBar("Seed", &m_seed);
 	m_bar->AddIntToTwBar("TreeLimit", &m_treeCount);
 	m_bar->AddFloatToTwBar("Amplitude", &m_amplitude);
 	m_bar->AddFloatToTwBar("Persistence", &m_persistence);
 	m_bar->AddBoolToTwBar("Regenerate?", &m_renegerate);
-	m_bar->AddVec3ToTwBar("m_lightDirection", &m_lightDirection);
+
+	m_bar->AddVec3ToTwBar("m_lightDirection", &m_lightdir);
+	
+
 	
 	GenNormalLoop();
 	glGenTextures(1, &m_perlin_texture);
@@ -65,6 +70,8 @@ ProceduralGenTutorial::ProceduralGenTutorial(Renderer* a_render,AntTweakBar* a_b
 	{
 		m_trees[i].SetModel(m_tree);
 	}
+
+	float *perlin_data = new float[m_grid * m_grid];
 }
 
 
@@ -80,16 +87,22 @@ void ProceduralGenTutorial::Draw(FlyCamera &_gameCamera, float a_deltatime)
 	int m_program = 0;
 
 	
-	m_lightDirection = vec3(sin(glfwGetTime()), 0, cos(glfwGetTime()));
+
 
 	Gizmos::addTransform(glm::mat4(1), 5.0f);
 	DrawNormals();
 	//FBX Model stuff
+	//for (int i = 0; i < m_tree; i++)
+	//{
+	//	if ()
+	//	{
 
-	for (int i = 0; i < m_treeCount; i++)
-	{
-		m_trees[i].Draw(m_program,m_render,m_lightDirection,_gameCamera);
-	}
+	//	}
+	//	else
+	//	{
+
+	//	}
+	//}
 
 	//Terrain Code
 	m_program = m_render->ReturnProgramTerrain();
@@ -109,6 +122,11 @@ void ProceduralGenTutorial::Draw(FlyCamera &_gameCamera, float a_deltatime)
 
 	loc = glGetUniformLocation(m_program, "box_texture");
 	glUniform1i(loc, 1);
+
+	loc = glGetUniformLocation(m_program, "Scale");
+	glUniform1f(loc, m_scalar);
+
+	
 
 	glBindVertexArray(m_vao);
 	unsigned int indexCount = (m_grid - 1) * (m_grid - 1) * 6;
@@ -245,7 +263,7 @@ void ProceduralGenTutorial::GeneratePerlin()
 			for (int o = 0; o < m_octaves; ++o)
 			{
 				float freq = powf(2, (float)o);
-				float perlin_sample = glm::perlin(vec2((float)x, (float)y)* scale * freq) * 0.5f + 0.5f;
+				float perlin_sample = glm::perlin(vec3((float)x, (float)y,m_seed)* scale * freq) * 0.5f + 0.5f;
 
 					perlin_data[y* dims + x] += perlin_sample * amplitude;
 				amplitude *= persistence;

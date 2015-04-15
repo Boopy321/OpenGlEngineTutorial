@@ -9,6 +9,8 @@
 #include <fstream>
 #include "Assets\InputManager\InputManager.h"
 #include "Assets\AntTweakBar\AntTweakBar.h"
+#include "Assets\Render\Renderer.h"
+#include "Assets\Light\Light.h"
 
 Application::Application()
 {
@@ -48,7 +50,9 @@ bool Application::startUp()
 		m_bar = new AntTweakBar(m_wWidth, m_wHeight, window);
 		m_bar->AddVec4ToTwBar("ColorScheme", &m_clearColour);
 		//Create the current Project
-		CurrentProject = new ProceduralGenTutorial(m_render,m_bar);
+		m_light = new Light(m_bar);
+
+		CurrentProject = new ProceduralGenTutorial(m_render,m_bar,m_light);
 		
 		//Background color 
 		m_clearColour = vec4(0.0f,0.0f,0.00f,1.0f);
@@ -59,9 +63,11 @@ bool Application::startUp()
 void Application::update(float a_deltatime)
 {
 	// Red/ Green/Blue
+	
+
 	glClearColor(m_clearColour.x, m_clearColour.y, m_clearColour.z,1);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
+	m_light->Update();
 	CurrentProject->GameLoop();
 	//Camera
 	_gameCamera.update(a_deltatime);
@@ -85,7 +91,7 @@ void Application::update(float a_deltatime)
 void Application::draw(float a_deltatime)
 {	
 	m_frameCounter++;
-
+	 
 	Gizmos::clear();
 	CurrentProject->Draw(_gameCamera,a_deltatime);
 	Gizmos::draw(_gameCamera.getProjectionView());

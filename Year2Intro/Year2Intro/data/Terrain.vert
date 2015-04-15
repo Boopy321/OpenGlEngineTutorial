@@ -9,13 +9,16 @@ uniform mat4 ProjectionView;
 out vec2 frag_texcoord;
 
 uniform sampler2D perlin_texture;
+uniform float Scale;
+float TerrainMin = 2;
 
 void main()
 {
 	vec4 pos = position;
-	pos.y += texture(perlin_texture,texcoord).r * 5;
+	pos.y += texture(perlin_texture,texcoord).r * Scale;
+
+	pos.y -= Scale * TerrainMin;
 
 	frag_texcoord = texcoord;
 	gl_Position = ProjectionView * pos;
-
 }

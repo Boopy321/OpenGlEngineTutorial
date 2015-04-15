@@ -1,21 +1,13 @@
 #pragma once
 
 struct GLFWwindow;
+class Light;
 
-
-#include "Tutorial Projects/Tutoral1.h"
-#include "Tutorial Projects/Tutorial2.h"
-#include "Tutorial Projects/Tutorial3.h"
-#include "Tutorial Projects/Tutorial4.h"
-#include "Tutorial Projects/Tutorial5.h"
-#include "Tutorial Projects\PostProcessingTutorial.h"
 #include "Tutorial Projects\ShadowsTutorial.h"
 #include "Tutorial Projects\ProceduralGenTutorial.h"
 #include "Assets/Camera/FlyCamera.h"
 #include <AntTweakBar.h>
 #include "Assets/InputManager/InputManager.h"
-#include "Loaders/TinyObjLoader/tiny_obj_loader.h"
-#include "Loaders/TinyObjLoader/TinyObjSideProject.h"
 
 class AntTweakBar;
 
@@ -50,6 +42,8 @@ private:
 	int m_wWidth;
 
 	AntTweakBar* m_bar;
+
+	Light* m_light;
 
 	ProceduralGenTutorial* CurrentProject;
 

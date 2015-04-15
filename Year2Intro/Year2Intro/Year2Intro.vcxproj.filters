@@ -99,6 +99,9 @@
     <ClCompile Include="src\Assets\FBXModel\Trees\Trees.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Assets\Light\Light.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dep\aieutilities\Gizmos.h">
@@ -192,6 +195,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Assets\FBXModel\Trees\Trees.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Assets\Light\Light.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

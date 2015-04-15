@@ -8,6 +8,7 @@
 #include "AntTweakBar.h"
 #include <string>
 #include "Tutorial Projects\ProceduralGenTutorial.h"
+#include "Assets\Light\Light.h"
 
 AntTweakBar::AntTweakBar(int a_width, int a_height, GLFWwindow* a_window)
 {
@@ -99,6 +100,14 @@ void AntTweakBar::RegenerateTerrain()
 	[](void* a_clientData){ProceduralGenTutorial::GenTerrain();},
 	NULL, ""
 	);
+}
+
+void AntTweakBar::ChangeLightDir()
+{
+	TwAddButton(m_bar, "Change Rotation of light?",
+		[](void* a_clientData){Light::ReverseLight(); },
+		NULL, ""
+		);
 }
 
 
