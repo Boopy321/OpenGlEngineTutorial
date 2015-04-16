@@ -13,32 +13,29 @@ uniform vec3 tA; //AMBIENT //
 uniform vec3 tD; //DIFFUSE
 uniform vec3 tS; //SPEC
 
-uniform vec3 iA;
-uniform vec3 iD;
-uniform vec3 iS;
-uniform float iSpecPower;
+uniform vec3 iA; //Intensity AMBIENT
+uniform vec3 iD; //Intensity Diffuse
+uniform vec3 iS; //Intensity Specular Colour
+uniform float iSpecPower; //Intensity Power
 
-uniform sampler2D diffuseTex;
-uniform vec3 ProjectionView;
+uniform sampler2D diffuseTex; //Texture if Possible
+uniform vec3 ProjectionView; // Camera View
 uniform vec3 L; //normalised Light Dir
 
 out vec4 FragColor;
 
-void main() 
+void main()
 {
-	float Ambient = tA * iA;
+	vec3 Ambient = tA * iA;
 
 	float Ndl = max(0.0f,dot(N,-L));
 	vec3 Diffuse = tD * iS * Ndl;
 
 	vec3 R = reflect(L,N);
-	vec3 E = normalize(ProjectionView - Position);
+	vec3 E = normalize(ProjectionView - vPosition);
 
-	float specTerm = pow(min(0.0f,dot(R,E)),ISpecPower);
+	float specTerm = pow(min(0.0f,dot(R,E)),iSpecPower);
 	vec3 Specular = (tS * iS)* specTerm;
 
-	float diffuseLighting = dot(-LightDir, normalize(vNormal));
-		
 	FragColor = texture(diffuseTex, vTexCoord) *vec4(Ambient + Diffuse + Specular, 1);
 };
-

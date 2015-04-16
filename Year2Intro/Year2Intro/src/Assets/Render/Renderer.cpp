@@ -41,14 +41,7 @@ Renderer::~Renderer()
 
 void Renderer::Draw(FlyCamera &_gameCamera, float a_deltatime)
 {
-	//Draws Particles
-	glUseProgram(m_ProgramParticle);
-	/*m_cpuEmittor->draw();
-	m_cpuEmittor->update(a_deltatime, _gameCamera.getProjection());
-	*/
-	/*glUseProgram(m_ProgramID);*/
 	
-
 }
 
 GLuint Renderer::LoadShaderFromFile(std::string a_path, GLenum  a_shadertype)

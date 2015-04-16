@@ -8,10 +8,7 @@ class Renderer
 public:
 	Renderer();
 	~Renderer();
-	//Shader Code
-
 	
-
 	void Generate2DObject();
 
 	GLuint LoadShaderFromFile(std::string a_path, GLenum  a_shadertype);

@@ -13,7 +13,7 @@ public:
 	~FBXModel();
 
 	void CreateOpenGLBuffers();
-	void FBXDraw(unsigned int a_program, Renderer* a_render, Light &a_light, FlyCamera &_gameCamera, glm::mat4 &location);
+	void FBXDraw(unsigned int a_program, Renderer* a_render, Light* a_light, FlyCamera &_gameCamera, glm::mat4 &location);
 
 
 	void NormalMapLoad(const char* string);

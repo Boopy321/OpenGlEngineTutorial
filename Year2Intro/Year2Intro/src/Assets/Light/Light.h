@@ -12,14 +12,15 @@ public:
 	inline glm::vec3 getSpecularVec3(){ return Specular; };
 	inline float getSpec(){ return m_spec; };
 
+	glm::vec3 m_lightDirection;
+
 	void Update();
 	static void ReverseLight();
 private:
-	glm::vec3 m_lightDirection;
+
 	glm::vec3 m_diffuse;
 	glm::vec3 Specular;
 	float m_spec;
-	
 	static bool reverse;
 };
 

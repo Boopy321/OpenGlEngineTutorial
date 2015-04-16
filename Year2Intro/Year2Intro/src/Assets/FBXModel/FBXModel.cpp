@@ -18,14 +18,14 @@ FBXModel::FBXModel(const char* path)
 	LoadFBX(path);
 	CreateOpenGLBuffers();
 	m_fbx->initialiseOpenGLTextures();
-
+	//Bunch of stuff for Lighting
 	tA = glm::vec3(1, 0, 0);
 	tD = glm::vec3(1, 0, 0);
 	tS = glm::vec3(1, 0, 0);
+
 	iA = glm::vec3(0.25f, 0.25f, 0.25f);
 	iD = glm::vec3(1, 1, 1);
 	iS = glm::vec3(1, 1, 1);
-
 }
 
 
@@ -35,9 +35,9 @@ FBXModel::~FBXModel()
 }
 
 
-void FBXModel::FBXDraw(unsigned int a_program, Renderer* a_render, Light &a_light, FlyCamera &_gameCamera,glm::mat4 &location)
+void FBXModel::FBXDraw(unsigned int a_program, Renderer* a_render, Light* a_light, FlyCamera &_gameCamera,glm::mat4 &location)
 {
-
+	int loc = 0;
 
 	////glCullFace(GL_BACK);
 	////glEnable(GL_CULL_FACE);
@@ -55,17 +55,10 @@ void FBXModel::FBXDraw(unsigned int a_program, Renderer* a_render, Light &a_ligh
 		{
 			a_program = a_render->ReturnProgramFBXnoTex();
 			glUseProgram(a_program);
-
-			int loc = glGetUniformLocation(a_program, "MVP");
-			glUniformMatrix4fv(loc, 1, GL_FALSE, &(_gameCamera.getProjectionView()* location)[0][0]);
-
-			loc = glGetUniformLocation(a_program, "LightDir");
-			glUniform3fv(loc, 1, &a_light.getLightDir()[0]);
-
+			
 			loc = glGetUniformLocation(a_program, "Diffuse");
 			glUniform4fv(loc, 1, &material->diffuse[0]);
 
-		
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, diffuse->handle);
 		}
@@ -74,46 +67,39 @@ void FBXModel::FBXDraw(unsigned int a_program, Renderer* a_render, Light &a_ligh
 			a_program = a_render->ReturnProgramFBX();
 			glUseProgram(a_program);
 
-			int loc = glGetUniformLocation(a_program, "MVP");
-			glUniformMatrix4fv(loc, 1, GL_FALSE, &(_gameCamera.getProjectionView()* location)[0][0]);
-
-			loc = glGetUniformLocation(a_program, "tA");
-			glUniform3fv(loc, 1, &tA[0]);
-
-			loc = glGetUniformLocation(a_program, "tD");
-			glUniform3fv(loc, 1, &tD[0]);
-
-			loc = glGetUniformLocation(a_program, "tS");
-			glUniform3fv(loc, 1, &tS[0]);
-
-			loc = glGetUniformLocation(a_program, "iA");
-			glUniform3fv(loc, 1, &iA[0]);
-
-			loc = glGetUniformLocation(a_program, "iD");
-			glUniform3fv(loc, 1, &iD[0]);
-
-			loc = glGetUniformLocation(a_program, "iS");
-			glUniform3fv(loc, 1, &iS[0]);
-
-			loc = glGetUniformLocation(a_program, "iS");
-			glUniform3fv(loc, 1, &iS[0]);
-
-
-			loc = glGetUniformLocation(a_program, "iSpecPower");
-			glUniform1f(loc, a_light.getSpec());
-
-
-
-			loc = glGetUniformLocation(a_program, "LightDir");
-			glUniform3fv(loc, 1, &a_light.getLightDir()[0]);
-
 			loc = glGetUniformLocation(a_program, "box_texture");
 			glUniform1i(loc, 0);
 
 		}
-			
+
+		int loc = glGetUniformLocation(a_program, "MVP");
+		glUniformMatrix4fv(loc, 1, GL_FALSE, &(_gameCamera.getProjectionView()* location)[0][0]);
+
+		loc = glGetUniformLocation(a_program, "tA"); // AMBIENT
+		glUniform3fv(loc, 1, &tA[0]);
+
+		loc = glGetUniformLocation(a_program, "tD"); // SPECULAR
+		glUniform3fv(loc, 1, &tD[0]);
+
+		loc = glGetUniformLocation(a_program, "tS"); // SPECULAR
+		glUniform3fv(loc, 1, &tS[0]);
+		/// ENVIROMENT DETAILS
+		loc = glGetUniformLocation(a_program, "iA");
+		glUniform3fv(loc, 1, &iA[0]);
+
+		loc = glGetUniformLocation(a_program, "iD");
+		glUniform3fv(loc, 1, &iD[0]);
+
+		loc = glGetUniformLocation(a_program, "iS");
+		glUniform3fv(loc, 1, &iS[0]);
+
+		loc = glGetUniformLocation(a_program, "LightDir");
+		glUniform3fv(loc, 1, &a_light->getLightDir()[0]);
+
+		loc = glGetUniformLocation(a_program, "iSpecPower");
+		glUniform1f(loc, a_light->getSpec());
+
 		glBindVertexArray(glData[0]);
-		
 
 		glDrawElements(GL_TRIANGLES,
 			(unsigned int)mesh->m_indices.size() , GL_UNSIGNED_INT, 0);

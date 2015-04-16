@@ -11,13 +11,67 @@
 #include "Assets\AntTweakBar\AntTweakBar.h"
 #include "Assets\Render\Renderer.h"
 #include "Assets\Light\Light.h"
+#include <iostream>
+
+using namespace std;
+
+void APIENTRY openglCallbackFunction(GLenum source,
+	GLenum type,
+	GLuint id,
+	GLenum severity,
+	GLsizei length,
+	const GLchar* message,
+	const void* userParam)
+{
+
+	cout << "---------------------opengl-callback-start------------" << endl;
+	cout << "message: " << message << endl;
+	cout << "type: ";
+	switch (type) {
+	case GL_DEBUG_TYPE_ERROR:
+		cout << "ERROR";
+		break;
+	case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR:
+		cout << "DEPRECATED_BEHAVIOR";
+		break;
+	case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR:
+		cout << "UNDEFINED_BEHAVIOR";
+		break;
+	case GL_DEBUG_TYPE_PORTABILITY:
+		cout << "PORTABILITY";
+		break;
+	case GL_DEBUG_TYPE_PERFORMANCE:
+		cout << "PERFORMANCE";
+		break;
+	case GL_DEBUG_TYPE_OTHER:
+		cout << "OTHER";
+		break;
+	}
+	cout << endl;
+
+	cout << "id: ";
+	cout << "severity: ";
+	switch (severity){
+	case GL_DEBUG_SEVERITY_LOW:
+		cout << "LOW";
+		break;
+	case GL_DEBUG_SEVERITY_MEDIUM:
+		cout << "MEDIUM";
+		break;
+	case GL_DEBUG_SEVERITY_HIGH:
+		cout << "HIGH";
+		break;
+	}
+	cout << endl;
+	cout << "---------------------opengl-callback-end--------------" << endl;
+}
+
 
 Application::Application()
 {
 //Window Sizes So i stop killing myself
 	m_wHeight = 720;
 	m_wWidth = 1280;
-	
 }
 
 bool Application::startUp()
@@ -42,18 +96,36 @@ bool Application::startUp()
 			return false;
 		}
 		std::cout << "OpenGL loaded" << std::endl;
+
+#if _DEBUG
+		if (glDebugMessageCallback){
+			cout << "Register OpenGL debug callback " << endl;
+			//glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+			glDebugMessageCallback(openglCallbackFunction, nullptr);
+			GLuint unusedIds = 0;
+			glDebugMessageControl(GL_DONT_CARE,
+				GL_DONT_CARE,
+				GL_DONT_CARE,
+				0,
+				&unusedIds,
+				true);
+		}
+		else
+			cout << "glDebugMessageCallback not available" << endl;
+#endif
+
 		_gameCamera.SetInputWindow(window);		
 		
 		//Load Render into Tutorial
 		m_render = new Renderer();
 		//AntTweakbar stuff
-		m_bar = new AntTweakBar(m_wWidth, m_wHeight, window);
-		m_bar->AddVec4ToTwBar("ColorScheme", &m_clearColour);
+		//m_bar = new AntTweakBar(m_wWidth, m_wHeight, window);
+		//m_bar->AddVec4ToTwBar("ColorScheme", &m_clearColour);
 		//Create the current Project
 		m_light = new Light(m_bar);
-
+		m_bar = NULL;
 		CurrentProject = new ProceduralGenTutorial(m_render,m_bar,m_light);
-		
+		//m_bar->AddFloatToTwBar("Framerate", &m_framerate);
 		//Background color 
 		m_clearColour = vec4(0.0f,0.0f,0.00f,1.0f);
 	
@@ -62,8 +134,6 @@ bool Application::startUp()
 
 void Application::update(float a_deltatime)
 {
-	// Red/ Green/Blue
-	
 
 	glClearColor(m_clearColour.x, m_clearColour.y, m_clearColour.z,1);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -91,11 +161,10 @@ void Application::update(float a_deltatime)
 void Application::draw(float a_deltatime)
 {	
 	m_frameCounter++;
-	 
 	Gizmos::clear();
 	CurrentProject->Draw(_gameCamera,a_deltatime);
 	Gizmos::draw(_gameCamera.getProjectionView());
-	m_bar->Draw();
+	//m_bar->Draw();
 }
 
 void Application::shutdown()
@@ -125,7 +194,7 @@ void Application::run()
 		//allows Depth varible to be used
 		glEnable(GL_DEPTH_TEST);
 		
-		while (glfwWindowShouldClose(window) == false &
+		while (glfwWindowShouldClose(window) == false &&
 		glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS)
 		{
 			//Deltatime stuff
@@ -137,5 +206,4 @@ void Application::run()
 
 		shutdown();
 }
-
 

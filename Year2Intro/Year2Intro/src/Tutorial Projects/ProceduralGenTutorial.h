@@ -33,38 +33,31 @@ public:
 private:
 
 	unsigned int m_vbo, m_ibo, m_vao;
-	unsigned int* indexData;
-
-	Renderer* m_render;
-	std::vector<gridVerts> m_verts;
-	Tree* m_trees;
-
-	Texture2D m_crate;
-	AntTweakBar* m_bar;
-	
-	Light* m_light;
-	
-	glm::vec3 m_lightdir;
-
-	//FBXModel m_dragon;
-	FBXModel* m_tree;
-	//FBXModel m_dragon;
-	
-	glm::vec3 m_lightDirection;
-
 	unsigned int* m_indexData;
+
 	unsigned int m_perlin_texture;
-	
 	unsigned int m_treelimit;
 	int m_treeCount;
+	int m_grid;
+	int m_octaves;
+
 
 	float m_amplitude;
 	float m_persistence;
 	float m_seed;
-	
 	float m_scalar;
-	int m_grid;
-	int m_octaves;
+	float* m_perlin_data;
+
+	Renderer* m_render;
+	Tree* m_trees;
+	Texture2D m_crate;
+	AntTweakBar* m_bar;
+	FBXModel* m_tree;
+	Light* m_light;
+
+	std::vector<gridVerts> m_verts;
+	glm::vec3 m_lightDirection;
+	glm::vec3 m_lightdir;
 
 	static bool m_renegerate;
 	static float m_height;

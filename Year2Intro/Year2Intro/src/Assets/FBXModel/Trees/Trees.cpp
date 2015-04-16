@@ -16,7 +16,7 @@ Tree::~Tree()
 
 }
 
-void Tree::Draw(unsigned int a_program, Renderer* a_render, Light &a_light, FlyCamera &_gameCamera)
+void Tree::Draw(unsigned int a_program, Renderer* a_render, Light* a_light, FlyCamera &_gameCamera)
 {
 	m_model->FBXDraw(a_program,a_render,a_light,_gameCamera,m_worldtransform );
 }
