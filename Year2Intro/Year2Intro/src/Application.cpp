@@ -119,13 +119,13 @@ bool Application::startUp()
 		//Load Render into Tutorial
 		m_render = new Renderer();
 		//AntTweakbar stuff
-		//m_bar = new AntTweakBar(m_wWidth, m_wHeight, window);
-		//m_bar->AddVec4ToTwBar("ColorScheme", &m_clearColour);
+		m_bar = new AntTweakBar(m_wWidth, m_wHeight, window);
+		m_bar->AddVec4ToTwBar("ColorScheme", &m_clearColour);
 		//Create the current Project
 		m_light = new Light(m_bar);
-		m_bar = NULL;
+		
 		CurrentProject = new ProceduralGenTutorial(m_render,m_bar,m_light);
-		//m_bar->AddFloatToTwBar("Framerate", &m_framerate);
+		m_bar->AddFloatToTwBar("Framerate", &m_framerate);
 		//Background color 
 		m_clearColour = vec4(0.0f,0.0f,0.00f,1.0f);
 	
@@ -164,7 +164,7 @@ void Application::draw(float a_deltatime)
 	Gizmos::clear();
 	CurrentProject->Draw(_gameCamera,a_deltatime);
 	Gizmos::draw(_gameCamera.getProjectionView());
-	//m_bar->Draw();
+	m_bar->Draw();
 }
 
 void Application::shutdown()

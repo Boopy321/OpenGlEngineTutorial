@@ -49,12 +49,14 @@ private:
 	float* m_perlin_data;
 
 	Renderer* m_render;
-	Tree* m_trees;
+	
 	Texture2D m_crate;
 	AntTweakBar* m_bar;
 	FBXModel* m_tree;
 	Light* m_light;
 
+
+	std::vector<Tree*> m_trees;
 	std::vector<gridVerts> m_verts;
 	glm::vec3 m_lightDirection;
 	glm::vec3 m_lightdir;

@@ -39,8 +39,7 @@ void FBXModel::FBXDraw(unsigned int a_program, Renderer* a_render, Light* a_ligh
 {
 	int loc = 0;
 
-	////glCullFace(GL_BACK);
-	////glEnable(GL_CULL_FACE);
+
 	//Turn off when rendering models
 	for (unsigned int i = 0; i < m_fbx->getMeshCount(); ++i)
 	{

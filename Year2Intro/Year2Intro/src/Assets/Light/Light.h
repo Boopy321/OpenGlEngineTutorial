@@ -7,7 +7,7 @@ public:
 	Light(AntTweakBar* a_bar);
 	~Light();
 
-	inline glm::vec3 getLightDir(){ return m_lightDirection; };
+	inline glm::vec3 getLightDir(){ return -m_lightDirection; };
 	inline glm::vec3 getDiffuse(){ return m_diffuse; };
 	inline glm::vec3 getSpecularVec3(){ return Specular; };
 	inline float getSpec(){ return m_spec; };

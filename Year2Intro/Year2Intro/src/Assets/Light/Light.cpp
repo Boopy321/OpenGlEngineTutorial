@@ -22,11 +22,11 @@ void Light::Update()
 	
 	if (reverse)
 	{
-		m_lightDirection = glm::vec3(0, sin(glfwGetTime()), cos(glfwGetTime()));
+		m_lightDirection = -glm::vec3(0, sin(glfwGetTime()), cos(glfwGetTime()));
 	}
 	else
 	{
-		m_lightDirection = glm::vec3(0, cos(glfwGetTime()), sin(glfwGetTime()));
+		m_lightDirection = -glm::vec3(0, cos(glfwGetTime()), sin(glfwGetTime()));
 	}
 }
 

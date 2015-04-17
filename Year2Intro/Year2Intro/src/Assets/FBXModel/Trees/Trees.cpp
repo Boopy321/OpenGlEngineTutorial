@@ -26,3 +26,12 @@ void Tree::SetPosition(glm::vec3& a_position)
 	m_worldtransform[3] = glm::vec4(a_position, 1);
 }
 
+void Tree::SetModel(FBXModel* a_model)
+{
+	 m_model = a_model;
+}
+
+void Tree::SetScale(glm::vec3 a_scale)
+{
+	m_worldtransform = glm::scale(a_scale);
+}

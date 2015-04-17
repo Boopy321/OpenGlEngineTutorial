@@ -81,6 +81,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Assets\SkyBox\SkyBox.cpp" />
     <ClCompile Include="src\Assets\Light\Light.cpp" />
     <ClCompile Include="src\Assets\FBXModel\FBXModel.cpp" />
     <ClCompile Include="src\Assets\AntTweakBar\AntTweakBar.cpp" />
@@ -112,6 +113,7 @@
     <ClCompile Include="src\Assets\FBXModel\Trees\Trees.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Assets\SkyBox\SkyBox.h" />
     <ClInclude Include="src\Assets\Light\Light.h" />
     <ClInclude Include="src\Assets\FBXModel\FBXModel.h" />
     <ClInclude Include="src\Assets\AntTweakBar\AntTweakBar.h" />

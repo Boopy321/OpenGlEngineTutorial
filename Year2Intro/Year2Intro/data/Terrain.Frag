@@ -6,6 +6,16 @@ in vec3 vNormal;
 
 out vec4 out_color;
 uniform sampler2D box_texture;
+uniform sampler2D grass_texture;
+uniform sampler2D rock_texture;
+uniform sampler2D dirt_texture;
+//Fun stuff 
+uniform sampler2D space_texture;
+uniform sampler2D water_texture;
+
+
+
+
 uniform vec3 Light;
 
   void main()

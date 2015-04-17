@@ -21,14 +21,14 @@ using glm::vec3;
 Renderer::Renderer()
 {
 	//start up all of the programs here
-	LoadProgram("./data/Tute3VertShader.glvs","./data/Tute3FragShader.glfs",m_ProgramObject);
-	LoadProgram("./data/Terrain.vert","./data/Terrain.frag",m_ProgramParticle);
+	//LoadProgram("./data/Tute3VertShader.glvs","./data/Tute3FragShader.glfs",m_ProgramObject);
+	//LoadProgram("./data/Terrain.vert","./data/Terrain.frag",m_ProgramParticle);
 	LoadProgram("./data/RenderShader.vert", "./data/RenderShader.frag", m_ProgramID);
-	LoadProgram("./data/PostProcess.vertex", "./data/PostProcess.Frag", m_ProgramPostProcess);
-	LoadProgram("./data/Shadows.vert", "./data/Shadows.Frag", m_ProgramShadow);
+	//LoadProgram("./data/PostProcess.vertex", "./data/PostProcess.Frag", m_ProgramPostProcess);
+	//LoadProgram("./data/Shadows.vert", "./data/Shadows.Frag", m_ProgramShadow);
 	LoadProgram("./data/FbxShader.vert", "./data/FbxShader.Frag", m_ProgramFbx);
-	LoadProgram("./data/ShadowMap.vert", "./data/ShadowMap.Frag", m_ProgramShadowMap);
-	LoadProgram("./data/DifNormMapLoader.vert", "./data/DifNormMapLoader.frag", m_ProgramMapLoad);
+	//LoadProgram("./data/ShadowMap.vert", "./data/ShadowMap.Frag", m_ProgramShadowMap);
+	//LoadProgram("./data/DifNormMapLoader.vert", "./data/DifNormMapLoader.frag", m_ProgramMapLoad);
 	LoadProgram("./data/Terrain.vert", "./data/Terrain.frag", m_programTerrain);
 	LoadProgram("./data/Fbxshader.vert", "./data/FbxNoTex.frag", m_programFBXnoTex);
 }
