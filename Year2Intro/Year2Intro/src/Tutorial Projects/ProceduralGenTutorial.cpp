@@ -54,7 +54,7 @@ ProceduralGenTutorial::ProceduralGenTutorial(Renderer* a_render,AntTweakBar* a_b
 
 	StartUpParticles(a_render);
 
-	m_tree = new FBXModel("./data/models/Tree/treeplan1.fbx");
+	m_tree = new FBXModel("./data/models/Bunny.fbx");
 	m_rock = new FBXModel("./data/models/Rock1/Rock1.fbx");
 
 	srand(glfwGetTime());
@@ -140,10 +140,10 @@ void ProceduralGenTutorial::Draw(FlyCamera &_gameCamera, float a_deltatime)
 
 	int loc = glGetUniformLocation(m_program, "ProjectionView");
 	glUniformMatrix4fv(loc, 1, GL_FALSE, &_gameCamera.getProjectionView()[0][0]);
-   //&m_light->m_lightDirection[0]
+   //
 	glm::vec3 light = glm::vec3(0, 1, 0);
 	loc = glGetUniformLocation(m_program, "Light");
-	glUniform3fv(loc, 1, &light[0]);
+	glUniform3fv(loc, 1, &m_light->m_lightDirection[0]);
    
 	loc = glGetUniformLocation(m_program, "box_texture");
 	glUniform1i(loc,0);

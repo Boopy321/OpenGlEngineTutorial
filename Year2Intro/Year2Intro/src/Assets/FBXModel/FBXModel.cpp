@@ -50,25 +50,27 @@ void FBXModel::FBXDraw(unsigned int a_program, Renderer* a_render, Light* a_ligh
 
 		FBXTexture* diffuse = material->textures[material->DiffuseTexture];
 
-		if (diffuse != nullptr)
+		if (diffuse == nullptr)
 		{
 			a_program = a_render->ReturnProgramFBXnoTex();
 			glUseProgram(a_program);
 			
+			glm::vec4 takethis = glm::vec4(1);
 			loc = glGetUniformLocation(a_program, "vDiffuse");
-			glUniform4fv(loc, 1, &material->diffuse[0]);
+			glUniform4fv(loc, 1, &takethis[0]);
 
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, diffuse->handle);
 		}
 		else
-		{
+		{//CHANGED
 			a_program = a_render->ReturnProgramFBX();
 			glUseProgram(a_program);
 
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, diffuse->handle);
+
 			loc = glGetUniformLocation(a_program, "box_texture");
 			glUniform1i(loc, 0);
-
+			
 		}
 
 		int loc = glGetUniformLocation(a_program, "MVP");
@@ -77,8 +79,9 @@ void FBXModel::FBXDraw(unsigned int a_program, Renderer* a_render, Light* a_ligh
 		loc = glGetUniformLocation(a_program, "LightDir");
 		glUniform3fv(loc, 1, &a_light->m_lightDirection[0]);
 
+		glm::vec3 color = glm::vec3(0);
 		loc = glGetUniformLocation(a_program, "LightColour");
-		glUniform3fv(loc, 1, &a_light->m_diffuse[0]);
+		glUniform3fv(loc, 1, &material->diffuse[0]);
 
 		loc = glGetUniformLocation(a_program, "CameraPos");
 		glUniform3fv(loc, 1, &_gameCamera.GetPosition()[0]);
