@@ -4,38 +4,25 @@ in vec3 vNormal;
 in vec2 vTexCoord;
 in vec3 vPosition;
 in vec3 vProjectCam;
+in vec3 vColour;
 
-
-in vec3 N; //Normalised Surface normal from mesh
-in vec3 P; //world-space surface position from mesh
-
-uniform vec3 tA; //AMBIENT //
-uniform vec3 tD; //DIFFUSE
-uniform vec3 tS; //SPEC
-
-uniform vec3 iA; //Intensity AMBIENT
-uniform vec3 iD; //Intensity Diffuse
-uniform vec3 iS; //Intensity Specular Colour
-uniform float iSpecPower; //Intensity Power
-
-uniform sampler2D diffuseTex; //Texture if Possible
-uniform vec3 ProjectionView; // Camera View
-uniform vec3 L; //normalised Light Dir
+uniform vec3 LightDir;
+uniform vec3 LightColour;
+uniform vec3 CameraPos;
+uniform float SpecPow;
+uniform vec3 AmbientIntestity;
+uniform sampler2D box_texture;
 
 out vec4 FragColor;
 
-void main()
-{
-	vec3 Ambient = tA * iA;
-
-	float Ndl = max(0.0f,dot(N,-L));
-	vec3 Diffuse = tD * iS * Ndl;
-
-	vec3 R = reflect(L,N);
-	vec3 E = normalize(ProjectionView - vPosition);
-
-	float specTerm = pow(min(0.0f,dot(R,E)),iSpecPower);
-	vec3 Specular = (tS * iS)* specTerm;
-
-	FragColor = texture(diffuseTex, vTexCoord) *vec4(Ambient + Diffuse + Specular, 1);
-};
+void main() {
+  vec3 ambient = LightColour * AmbientIntestity;
+	float d = max(0,
+	dot(normalize(vNormal.xyz),LightDir ) );
+	vec3 E = normalize( CameraPos - vPosition.xyz );
+	vec3 R = reflect( -LightDir, vNormal.xyz );
+	float s = max( 0, dot( E, R ) );
+	s = pow( s, SpecPow );
+	FragColor = texture(box_texture, vTexCoord) *vec4( LightColour * d +
+	LightColour * ambient, 1);
+ };

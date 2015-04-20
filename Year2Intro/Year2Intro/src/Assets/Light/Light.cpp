@@ -7,9 +7,13 @@ Light::Light(AntTweakBar* a_bar)
 {
 	m_lightDirection = glm::vec3(0, 1, 0);
 	m_diffuse = glm::vec3(1, 0, 0);
-	Specular = glm::vec3(1, 0, 0);
+	m_ambient = glm::vec3(1, 0, 0);
 	m_spec = 32.0f;
 	a_bar->ChangeLightDir();
+
+	a_bar->AddFloatToTwBar("Spec Float", &m_spec);
+	a_bar->AddVec3ToTwBar("Diffuse", &m_diffuse);
+	a_bar->AddVec3ToTwBar("Ambient", &m_ambient);
 }
 
 

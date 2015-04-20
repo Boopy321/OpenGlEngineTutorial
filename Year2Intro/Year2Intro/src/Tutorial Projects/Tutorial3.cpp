@@ -25,7 +25,7 @@ Tutorial3::Tutorial3(Renderer* a_render)
 	m_speed = 0.1f;
 	m_render = a_render;
 	m_emitter = new GPUParticleEmitter(a_render);
-	m_emitterReverse = new GPUParticleEmitter(a_render);
+	
 
 	m_emitter->initalise(1000000,
 		0.01f, 3.f,
@@ -116,10 +116,6 @@ void Tutorial3::Draw(FlyCamera &_gameCamera, float a_deltatime)
 		m_parTime += 0.1f;
 	else
 		m_parTime -= 0.1f;
-
-	m_emitter->draw(m_parTime, (float)glfwGetTime(),
-		_gameCamera.getWorldTransform(),
-		_gameCamera.getProjectionView());
 
 	m_emitterReverse->draw(m_parTime, (float)glfwGetTime(),
 		_gameCamera.getWorldTransform(),

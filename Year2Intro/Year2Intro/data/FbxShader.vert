@@ -8,6 +8,7 @@ out vec3 vNormal;
 out vec2 vTexCoord;
 out vec3 vPosition;
 out vec3 vProjectCam;
+out vec3 vColour;
 
 uniform mat4 MVP;
 

@@ -191,9 +191,11 @@ void Application::run()
 		Gizmos::create();
 		//m_render->GenerateGrid(100, 100);
 
+		glEnable(GL_BLEND);
+		glBlendEquation(GL_FUNC_ADD);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		//allows Depth varible to be used
 		glEnable(GL_DEPTH_TEST);
-		
 		while (glfwWindowShouldClose(window) == false &&
 		glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS)
 		{
