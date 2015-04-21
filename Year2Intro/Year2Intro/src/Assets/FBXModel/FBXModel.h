@@ -15,7 +15,7 @@ public:
 	void CreateOpenGLBuffers();
 	void FBXDraw(unsigned int a_program, Renderer* a_render, Light* a_light, FlyCamera &_gameCamera, glm::mat4 &location);
 
-
+	void SetTransform(glm::mat4 transform);
 	void NormalMapLoad(const char* string);
 	void DiffuseMapLoad(const char* string);
 	void CleanupOpenGlBuffers();
@@ -27,12 +27,7 @@ private:
 	unsigned int m_diffuse;
 	unsigned int m_normalmap;
 
-	glm::vec3 tA;
-	glm::vec3 tD;
-	glm::vec3 tS;
-	glm::vec3 iA;
-	glm::vec3 iD;
-	glm::vec3 iS;
+	glm::mat4 m_worldTransform;
 
 };
 

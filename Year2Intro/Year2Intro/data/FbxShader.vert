@@ -17,5 +17,5 @@ void main()
 	vTexCoord = TexCoord;
 	vNormal = Normal.xyz;
 	vPosition = Position.xyz;
-	gl_Position = MVP*Position;
+	gl_Position = MVP * Position;
 }

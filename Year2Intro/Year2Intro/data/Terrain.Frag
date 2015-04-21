@@ -23,8 +23,6 @@ float WaterLevel;
 
 void main()
   {
-    vec3 normal = normalize(vNormal);
-    float diffuse= dot(Light,normal);
 
     vec3 ambient = LightColour * AmbientIntestity;
     float d = max(0,

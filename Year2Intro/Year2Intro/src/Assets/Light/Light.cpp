@@ -6,9 +6,9 @@ bool Light::reverse(true);
 Light::Light(AntTweakBar* a_bar)
 {
 	m_lightDirection = glm::vec3(0, 1, 0);
-	m_diffuse = glm::vec3(1, 1, 1);
-	m_ambient = glm::vec3(1, 1,1);
-	m_spec = 32.0f;
+	m_diffuse = glm::vec3(0.4, 0.4, 0.4);
+	m_ambient = glm::vec3(1);
+	m_spec = 64.0f;
 	a_bar->ChangeLightDir();
 
 	a_bar->AddFloatToTwBar("Spec Float", &m_spec);

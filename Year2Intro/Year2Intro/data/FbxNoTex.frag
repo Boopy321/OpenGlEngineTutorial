@@ -9,6 +9,7 @@ in vec3 vColour;
 uniform vec3 LightDir;
 uniform vec3 LightColour;
 uniform vec3 CameraPos;
+uniform sampler2D rock_texture;
 uniform float SpecPow;
 uniform vec3 AmbientIntestity;
 uniform vec4 vDiffuse;
@@ -22,6 +23,6 @@ void main() {
 	vec3 R = reflect( -LightDir, vNormal.xyz );
 	float s = max( 0, dot( E, R ) );
 	s = pow( s, SpecPow );
-	FragColor = vDiffuse *vec4( LightColour * d +
-	LightColour * ambient, 1);
+	FragColor = texture(rock_texture,vTexCoord) * (vDiffuse *vec4( LightColour * d +
+	LightColour * ambient, 1));
  };

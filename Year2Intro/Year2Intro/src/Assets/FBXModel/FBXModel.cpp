@@ -18,14 +18,6 @@ FBXModel::FBXModel(const char* path)
 	LoadFBX(path);
 	CreateOpenGLBuffers();
 	m_fbx->initialiseOpenGLTextures();
-	//Bunch of stuff for Lighting
-	tA = glm::vec3(1, 0, 0);
-	tD = glm::vec3(1, 0, 0);
-	tS = glm::vec3(1, 0, 0);
-
-	iA = glm::vec3(0.25f, 0.25f, 0.25f);
-	iD = glm::vec3(1, 1, 1);
-	iS = glm::vec3(1, 1, 1);
 }
 
 
@@ -47,18 +39,23 @@ void FBXModel::FBXDraw(unsigned int a_program, Renderer* a_render, Light* a_ligh
 		unsigned int* glData = (unsigned int*)mesh->m_userData;
 		
 		FBXMaterial* material = mesh->m_material;
-
+		
 		FBXTexture* diffuse = material->textures[material->DiffuseTexture];
-
+		
 		if (diffuse == nullptr)
 		{
 			a_program = a_render->ReturnProgramFBXnoTex();
 			glUseProgram(a_program);
-			//i was mad
+		
+			//So the rocks dont look crappy
+			glActiveTexture(GL_TEXTURE0);
+			
+			//Wrapping it hopefully with the Background texture
+			loc = glGetUniformLocation(a_program, "rock_texture");
+			glUniform1i(loc, 0);
 
-			glm::vec4 takethis = glm::vec4(0);
 			loc = glGetUniformLocation(a_program, "vDiffuse");
-			glUniform4fv(loc, 1, &takethis[1]);
+			glUniform4fv(loc, 1, &material->diffuse[0]);
 
 		}
 		else
@@ -73,16 +70,16 @@ void FBXModel::FBXDraw(unsigned int a_program, Renderer* a_render, Light* a_ligh
 			glUniform1i(loc, 0);
 			
 		}
-
+		glm::mat4 gamestuff = _gameCamera.getProjectionView();
 		int loc = glGetUniformLocation(a_program, "MVP");
-		glUniformMatrix4fv(loc, 1, GL_FALSE, &(_gameCamera.getProjectionView()* location)[0][0]);
+		glUniformMatrix4fv(loc, 1, GL_FALSE, &(gamestuff*m_worldTransform)[0][0]);
 		
 		loc = glGetUniformLocation(a_program, "LightDir");
 		glUniform3fv(loc, 1, &a_light->m_lightDirection[0]);
 
 		glm::vec3 color = glm::vec3(1);
 		loc = glGetUniformLocation(a_program, "LightColour");
-		glUniform3fv(loc, 1, &color[0]);
+		glUniform3fv(loc, 1, &a_light->m_diffuse[0]);
 
 		loc = glGetUniformLocation(a_program, "CameraPos");
 		glUniform3fv(loc, 1, &_gameCamera.GetPosition()[0]);
@@ -141,7 +138,7 @@ void FBXModel::CreateOpenGLBuffers()
 		glVertexAttribPointer(2, 2,GL_FLOAT, GL_FALSE,
 			sizeof(FBXVertex),
 			((char*)0) + FBXVertex::TexCoord1Offset);
-
+		
 
 		glBindVertexArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -184,9 +181,9 @@ void FBXModel::LoadFBX(const char* string)
 	
 }
 
-void FBXModel::AdjustPosition(FlyCamera &a_camera)
+void FBXModel::SetTransform(glm::mat4 transform)
 {
-
+	glm::mat4 m_worldTransform = transform;
 
 }
 

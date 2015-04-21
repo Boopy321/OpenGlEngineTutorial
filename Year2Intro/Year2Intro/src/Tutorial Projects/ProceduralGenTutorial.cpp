@@ -39,7 +39,7 @@ ProceduralGenTutorial::ProceduralGenTutorial(Renderer* a_render,AntTweakBar* a_b
 	m_render = a_render;
 	m_grid = 100;
 	m_perlin_data = new float[m_grid * m_grid];
-	m_amplitude = 6.f;
+	m_amplitude = 35.f;
 	m_persistence = 0.3f;
 	m_bar = a_bar;
 	m_scalar = 3.0f;
@@ -85,6 +85,9 @@ ProceduralGenTutorial::ProceduralGenTutorial(Renderer* a_render,AntTweakBar* a_b
 	m_bar->AddFloatToTwBar("Persistence", &m_persistence);
 	m_bar->AddBoolToTwBar("Regenerate?", &m_renegerate);
 	m_bar->AddVec3ToTwBar("m_lightDirection", &m_light->m_lightDirection);
+	glEnable(GL_BLEND);
+	glBlendEquation(GL_FUNC_ADD);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 
@@ -98,7 +101,6 @@ ProceduralGenTutorial::~ProceduralGenTutorial()
 void ProceduralGenTutorial::Draw(FlyCamera &_gameCamera, float a_deltatime)
 {
 
-	
 
 	if(m_treeCount > m_treelimit)
 	{
@@ -118,27 +120,29 @@ void ProceduralGenTutorial::Draw(FlyCamera &_gameCamera, float a_deltatime)
 
 	Gizmos::addTransform(glm::mat4(1), 5.0f);
 	//DrawNormals();
-
+	//rocks
+	for (int i = 0; i < m_rockcount; i++)
+	{
+	
+		m_rocks[i]->Draw(m_program, m_render, m_light, _gameCamera);
+	}
+	//trees
 	for (int i = 0; i < m_treeCount; i++)
 	{
 		glEnable(GL_BLEND);
-		glBlendEquation(GL_FUNC_ADD);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		m_trees[i]->Draw(m_program, m_render, m_light, _gameCamera);
-		
 	}
 	
-	for (int i = 0; i < m_rockcount; i++)
-	{
-		glEnable(GL_BLEND);
-		glBlendEquation(GL_FUNC_ADD);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		m_rocks[i]->Draw(m_program, m_render, m_light, _gameCamera);
-		glDisable(GL_BLEND);
-	}
+	
 	//glCullFace(GL_BACK);
 	//glEnable(GL_CULL_FACE);
 	//Terrain Code
+
+
+	m_emitter->draw(0.0f, (float)glfwGetTime(),
+		_gameCamera.getWorldTransform(),
+		_gameCamera.getProjectionView());
+	
 
 	m_program = m_render->ReturnProgramTerrain();
 
@@ -147,11 +151,13 @@ void ProceduralGenTutorial::Draw(FlyCamera &_gameCamera, float a_deltatime)
 	m_grass.Bind(0);
 
 	m_dirt.Bind(1);
+
+
 	int loc = glGetUniformLocation(m_program, "ProjectionView");
 	glUniformMatrix4fv(loc, 1, GL_FALSE, &_gameCamera.getProjectionView()[0][0]);
    
 	glm::vec3 light = glm::vec3(0, 1, 0);
-	loc = glGetUniformLocation(m_program, "Light");
+	loc = glGetUniformLocation(m_program, "LightDir");
 	glUniform3fv(loc, 1, &m_light->m_lightDirection[0]);
    
 	loc = glGetUniformLocation(m_program, "grass_texture");
@@ -180,6 +186,7 @@ void ProceduralGenTutorial::Draw(FlyCamera &_gameCamera, float a_deltatime)
 	unsigned int indexCount = ((m_grid - 1) * (m_grid - 1)) * 6;
 
 	glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
+	glDisable(GL_BLEND);
 }
 
 void ProceduralGenTutorial::GameLoop()
@@ -268,16 +275,22 @@ void ProceduralGenTutorial::GenerateTerrain()
 {
 	GeneratePerlin();
 	//Placement of each Stone and Tree
-
+	
 	for (int i = 0; i < m_treelimit; i++)
 	{
 		unsigned int randInt = rand() % m_verts.size();	
 		if (m_verts[randInt].Active == false)
 		{
-			m_verts[randInt].Active = true;
-			m_trees[i]->SetScale(glm::vec3(0.5f, 0.5f,0.5f));
+		
 			m_trees[i]->SetPosition(m_verts[randInt].Position.xyz());
+			m_trees[i]->SetScale(glm::vec3(1.0f, 1.0f, 1.0f));
+			m_verts[randInt].Active = true;
 		}	
+
+		else
+		{
+			randInt = rand() % m_verts.size();
+		}
 	}
 
 	for (int i = 0; i < m_rocklimit; i++)
@@ -286,8 +299,8 @@ void ProceduralGenTutorial::GenerateTerrain()
 		if (m_verts[randInt].Active == false)
 		{
 			m_verts[randInt].Active = true;
-			m_rocks[i]->SetScale(glm::vec3(2.0f, 2.0f, 2.0f));
 			m_rocks[i]->SetPosition(m_verts[randInt].Position.xyz());
+			m_rocks[i]->SetScale(glm::vec3(2.0f, 2.0f, 2.0f));
 		}
 		else
 		{
@@ -353,7 +366,7 @@ void ProceduralGenTutorial::GeneratePerlin()
 	{
 		m_verts[i].Position.y = m_perlin_data[i] * m_scalar;
 	}
-
+	//Creates the normals based of the new perlin data
 	GenNormalLoop();
 
 	glBindBuffer(GL_ARRAY_BUFFER,m_vbo);
