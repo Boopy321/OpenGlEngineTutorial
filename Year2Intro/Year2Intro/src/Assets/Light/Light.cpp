@@ -6,8 +6,8 @@ bool Light::reverse(true);
 Light::Light(AntTweakBar* a_bar)
 {
 	m_lightDirection = glm::vec3(0, 1, 0);
-	m_diffuse = glm::vec3(1, 0, 0);
-	m_ambient = glm::vec3(1, 0, 0);
+	m_diffuse = glm::vec3(1, 1, 1);
+	m_ambient = glm::vec3(1, 1,1);
 	m_spec = 32.0f;
 	a_bar->ChangeLightDir();
 

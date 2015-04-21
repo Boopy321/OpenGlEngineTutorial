@@ -22,7 +22,7 @@ vec4 BoxBlur()
 	return colour / 9;
 }
 
-vec4 Distort() 
+vec4 Distort()
 {
 	vec2 mid = vec2(0.5f);
 	float distanceFromCentre = distance(fTexCoord, mid);
@@ -34,6 +34,6 @@ vec4 Distort()
 }
 
 void main() {
-	
+
 	FragColour = Distort();
 }

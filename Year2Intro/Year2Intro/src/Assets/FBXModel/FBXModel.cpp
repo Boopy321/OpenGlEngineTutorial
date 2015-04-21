@@ -38,7 +38,7 @@ FBXModel::~FBXModel()
 void FBXModel::FBXDraw(unsigned int a_program, Renderer* a_render, Light* a_light, FlyCamera &_gameCamera,glm::mat4 &location)
 {
 	int loc = 0;
-	glEnable(GL_BLEND);
+	
 
 	//Turn off when rendering models
 	for (unsigned int i = 0; i < m_fbx->getMeshCount(); ++i)
@@ -54,10 +54,11 @@ void FBXModel::FBXDraw(unsigned int a_program, Renderer* a_render, Light* a_ligh
 		{
 			a_program = a_render->ReturnProgramFBXnoTex();
 			glUseProgram(a_program);
-			
-			glm::vec4 takethis = glm::vec4(1);
+			//i was mad
+
+			glm::vec4 takethis = glm::vec4(0);
 			loc = glGetUniformLocation(a_program, "vDiffuse");
-			glUniform4fv(loc, 1, &takethis[0]);
+			glUniform4fv(loc, 1, &takethis[1]);
 
 		}
 		else
@@ -79,9 +80,9 @@ void FBXModel::FBXDraw(unsigned int a_program, Renderer* a_render, Light* a_ligh
 		loc = glGetUniformLocation(a_program, "LightDir");
 		glUniform3fv(loc, 1, &a_light->m_lightDirection[0]);
 
-		glm::vec3 color = glm::vec3(0);
+		glm::vec3 color = glm::vec3(1);
 		loc = glGetUniformLocation(a_program, "LightColour");
-		glUniform3fv(loc, 1, &material->diffuse[0]);
+		glUniform3fv(loc, 1, &color[0]);
 
 		loc = glGetUniformLocation(a_program, "CameraPos");
 		glUniform3fv(loc, 1, &_gameCamera.GetPosition()[0]);
@@ -97,7 +98,7 @@ void FBXModel::FBXDraw(unsigned int a_program, Renderer* a_render, Light* a_ligh
 		glDrawElements(GL_TRIANGLES,
 			(unsigned int)mesh->m_indices.size() , GL_UNSIGNED_INT, 0);
 	}
-	glDisable(GL_BLEND);
+
 }
 
 void FBXModel::CreateOpenGLBuffers()

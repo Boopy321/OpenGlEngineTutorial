@@ -34,7 +34,7 @@ struct gridVerts
 };
 
 ProceduralGenTutorial::ProceduralGenTutorial(Renderer* a_render,AntTweakBar* a_bar,Light* a_light)
-: m_grass("./data/models/Dirt.png"), m_dirt("./data/models/Dirt.png")
+: m_grass("./data/models/Grass.png"), m_dirt("./data/models/Dirt.png")
 {
 	m_render = a_render;
 	m_grid = 100;
@@ -54,7 +54,7 @@ ProceduralGenTutorial::ProceduralGenTutorial(Renderer* a_render,AntTweakBar* a_b
 
 	StartUpParticles(a_render);
 
-	m_tree = new FBXModel("./data/models/Bunny.fbx");
+	m_tree = new FBXModel("./data/models/Tree/treeplan1.fbx");
 	m_rock = new FBXModel("./data/models/Rock1/Rock1.fbx");
 
 	srand(glfwGetTime());
@@ -121,12 +121,20 @@ void ProceduralGenTutorial::Draw(FlyCamera &_gameCamera, float a_deltatime)
 
 	for (int i = 0; i < m_treeCount; i++)
 	{
+		glEnable(GL_BLEND);
+		glBlendEquation(GL_FUNC_ADD);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		m_trees[i]->Draw(m_program, m_render, m_light, _gameCamera);
+		
 	}
 	
 	for (int i = 0; i < m_rockcount; i++)
 	{
+		glEnable(GL_BLEND);
+		glBlendEquation(GL_FUNC_ADD);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		m_rocks[i]->Draw(m_program, m_render, m_light, _gameCamera);
+		glDisable(GL_BLEND);
 	}
 	//glCullFace(GL_BACK);
 	//glEnable(GL_CULL_FACE);
@@ -138,22 +146,35 @@ void ProceduralGenTutorial::Draw(FlyCamera &_gameCamera, float a_deltatime)
 
 	m_grass.Bind(0);
 
+	m_dirt.Bind(1);
 	int loc = glGetUniformLocation(m_program, "ProjectionView");
 	glUniformMatrix4fv(loc, 1, GL_FALSE, &_gameCamera.getProjectionView()[0][0]);
-   //
+   
 	glm::vec3 light = glm::vec3(0, 1, 0);
 	loc = glGetUniformLocation(m_program, "Light");
 	glUniform3fv(loc, 1, &m_light->m_lightDirection[0]);
    
-	loc = glGetUniformLocation(m_program, "box_texture");
+	loc = glGetUniformLocation(m_program, "grass_texture");
 	glUniform1i(loc,0);
+
+	loc = glGetUniformLocation(m_program, "dirt_texture");
+	glUniform1i(loc, 1);
    
 	loc = glGetUniformLocation(m_program, "Scale");
 	glUniform1f(loc, m_scalar);
 
-	///Draw Particles
-	
+	glm::vec3 color = glm::vec3(1);
+	loc = glGetUniformLocation(m_program, "LightColour");
+	glUniform3fv(loc, 1, &m_light->m_diffuse[0]);
 
+	loc = glGetUniformLocation(m_program, "CameraPos");
+	glUniform3fv(loc, 1, &_gameCamera.GetPosition()[0]);
+
+	loc = glGetUniformLocation(m_program, "AmbientIntestity");
+	glUniform3fv(loc, 1, &m_light->m_ambient[0]);
+
+	loc = glGetUniformLocation(m_program, "SpecPow");
+	glUniform1f(loc, m_light->m_spec);
 
 	glBindVertexArray(m_vao);
 	unsigned int indexCount = ((m_grid - 1) * (m_grid - 1)) * 6;
