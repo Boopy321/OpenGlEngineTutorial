@@ -31,7 +31,7 @@ GPUParticleEmitter::~GPUParticleEmitter() {
 void GPUParticleEmitter::initalise(unsigned int a_maxParticles,
 	float a_lifetimeMin, float a_lifetimeMax, float a_velocityMin,
 	float a_velocityMax, float a_startSize, float a_endSize,
-	const glm::vec4& a_startColour, const glm::vec4& a_endColour)
+	const glm::vec4& a_startColour, const glm::vec4& a_endColour,glm::vec3 a_position)
 {
 	// store all variables passed in
 	m_startColour = a_startColour;
@@ -43,6 +43,7 @@ void GPUParticleEmitter::initalise(unsigned int a_maxParticles,
 	m_lifespanMin = a_lifetimeMin;
 	m_lifespanMax = a_lifetimeMax;
 	m_maxParticles = a_maxParticles;
+	m_position = a_position;
 	// create particle array
 	m_particles = new GPUParticle[a_maxParticles];
 	// set our starting ping-pong buffer

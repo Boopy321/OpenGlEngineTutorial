@@ -72,6 +72,7 @@ private:
 	glm::vec3 m_lightDirection;
 	glm::vec3 m_lightdir;
 
+	float heightmax;
 	static bool m_renegerate;
 	static float m_height;
 };

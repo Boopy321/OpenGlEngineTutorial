@@ -19,7 +19,7 @@ public:
 
 	void SetModel(FBXModel* a_model);
 	void SetScale(glm::vec3 a_scale);
-
+	void SetRotate( glm::vec3 a_angle);
 private:
 	FBXModel* m_model;
 	glm::mat4 m_worldtransform;

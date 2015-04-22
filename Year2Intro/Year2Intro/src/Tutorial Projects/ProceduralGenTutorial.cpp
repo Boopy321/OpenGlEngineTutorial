@@ -52,9 +52,9 @@ ProceduralGenTutorial::ProceduralGenTutorial(Renderer* a_render,AntTweakBar* a_b
 	m_lightdir = m_light->m_lightDirection;
 	m_indexData = new unsigned int[(m_grid - 1)*(m_grid - 1) * 6];
 
-	StartUpParticles(a_render);
+	
 
-	m_tree = new FBXModel("./data/models/Tree/treeplan1.fbx");
+	m_tree = new FBXModel("./data/models/tree/treeplan1.fbx");
 	m_rock = new FBXModel("./data/models/Rock1/Rock1.fbx");
 
 	srand(glfwGetTime());
@@ -86,8 +86,7 @@ ProceduralGenTutorial::ProceduralGenTutorial(Renderer* a_render,AntTweakBar* a_b
 	m_bar->AddBoolToTwBar("Regenerate?", &m_renegerate);
 	m_bar->AddVec3ToTwBar("m_lightDirection", &m_light->m_lightDirection);
 	glEnable(GL_BLEND);
-	glBlendEquation(GL_FUNC_ADD);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 }
 
 
@@ -121,23 +120,26 @@ void ProceduralGenTutorial::Draw(FlyCamera &_gameCamera, float a_deltatime)
 	Gizmos::addTransform(glm::mat4(1), 5.0f);
 	//DrawNormals();
 	//rocks
+
+	//trees
 	for (int i = 0; i < m_rockcount; i++)
 	{
-	
+
 		m_rocks[i]->Draw(m_program, m_render, m_light, _gameCamera);
 	}
-	//trees
+
 	for (int i = 0; i < m_treeCount; i++)
 	{
 		glEnable(GL_BLEND);
+		glBlendEquation(GL_FUNC_ADD);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		m_trees[i]->Draw(m_program, m_render, m_light, _gameCamera);
 	}
-	
-	
+
+
 	//glCullFace(GL_BACK);
 	//glEnable(GL_CULL_FACE);
 	//Terrain Code
-
 
 	m_emitter->draw(0.0f, (float)glfwGetTime(),
 		_gameCamera.getWorldTransform(),
@@ -281,9 +283,9 @@ void ProceduralGenTutorial::GenerateTerrain()
 		unsigned int randInt = rand() % m_verts.size();	
 		if (m_verts[randInt].Active == false)
 		{
-		
-			m_trees[i]->SetPosition(m_verts[randInt].Position.xyz());
+			m_trees[i]->SetRotate( glm::vec3(1.5, 0, 0));
 			m_trees[i]->SetScale(glm::vec3(1.0f, 1.0f, 1.0f));
+			m_trees[i]->SetPosition(m_verts[randInt].Position.xyz());
 			m_verts[randInt].Active = true;
 		}	
 
@@ -299,8 +301,10 @@ void ProceduralGenTutorial::GenerateTerrain()
 		if (m_verts[randInt].Active == false)
 		{
 			m_verts[randInt].Active = true;
+			m_rocks[i]->SetRotate( glm::vec3(1, 0, 0));
+			m_rocks[i]->SetScale(glm::vec3(1.0f, 1.0f, 1.0f));
 			m_rocks[i]->SetPosition(m_verts[randInt].Position.xyz());
-			m_rocks[i]->SetScale(glm::vec3(2.0f, 2.0f, 2.0f));
+			
 		}
 		else
 		{
@@ -318,7 +322,7 @@ void ProceduralGenTutorial::GeneratePerlin()
 	m_octaves = 6;
 
 	float height = 0;
-	float heightmax = 0;
+	
 	float heightmin = std::numeric_limits<float>::max();
 
 	for (int x = 0; x < m_grid; ++x)
@@ -355,7 +359,7 @@ void ProceduralGenTutorial::GeneratePerlin()
 	float heightDif = heightmax - heightmin;
 	for ( int i = 0; i < m_grid * m_grid; ++i)
 	{
-		m_perlin_data[i] -= heightDif;
+		m_perlin_data[i] -= heightDif * m_scalar;
 	}
 	//Calculate normals here before the shader
 	//Throw in the Perlin Data instead of the Grid verts
@@ -368,7 +372,7 @@ void ProceduralGenTutorial::GeneratePerlin()
 	}
 	//Creates the normals based of the new perlin data
 	GenNormalLoop();
-
+	StartUpParticles(m_render);
 	glBindBuffer(GL_ARRAY_BUFFER,m_vbo);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, m_grid * m_grid *
 		sizeof(gridVerts), m_verts.data());
@@ -426,8 +430,9 @@ void ProceduralGenTutorial::StartUpParticles(Renderer* a_render)
 	m_emitter = new GPUParticleEmitter(a_render);
 
 	m_emitter->initalise(1000000,
-		0.01f, 3.f,
-		0.01f, 5,
+		0.0f, 20.f,
+		0.1f, 1.f,
 		0.1, 0.0001f,
-		glm::vec4(1, 0, 0, 1), glm::vec4(1, 1, 0, 0));
+		glm::vec4(0, 0, 1, 1), glm::vec4(0, 0, 1, 0), glm::vec3(0,(heightmax * heightmax),0)
+		);
 }

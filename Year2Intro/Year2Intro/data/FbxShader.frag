@@ -2,7 +2,7 @@
 
 in vec3 vNormal;
 in vec2 vTexCoord;
-in vec3 vPosition;
+in vec4 vPosition;
 in vec3 vProjectCam;
 in vec3 vColour;
 

@@ -189,11 +189,7 @@ void Application::run()
 		
 		//Stats up Gizmos Shape Creation code
 		Gizmos::create();
-		//m_render->GenerateGrid(100, 100);
-		glEnable(GL_BLEND);
-		glBlendEquation(GL_FUNC_ADD);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	
+		//m_render->GenerateGrid(100, 100)
 	
 		//allows Depth varible to be used
 		glEnable(GL_DEPTH_TEST);

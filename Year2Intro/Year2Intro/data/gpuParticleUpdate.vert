@@ -46,21 +46,23 @@ void main() {
 
 
 	position = Position + (Velocity) * dif;
-	velocity = newVelocity;
+	velocity = Velocity ;
 	lifetime = Lifetime + dif;
 	lifespan = Lifespan;
 
 	// emit a new particle as soon as it dies
 	if (lifetime > lifespan)
 	{
-		uint seed = uint(time * 1000.0) + uint(gl_VertexID);
+		//uint seed = uint(time * 1000.0) + uint(gl_VertexID);
 
 		// Emitter position
-		velocity.x = rand(seed++, 2) - 1;
-		velocity.y = rand(seed++, 2) - 1;
-		velocity.z = rand(seed++, 2) - 1;
+		velocity.x = 0;
+		velocity.y = rand(seed++, 2) -4;
+		velocity.z = 0;
 		velocity = normalize(velocity);
 		position = emitterPosition;
+		position.x = rand(seed++, 200)-100;
+		position.z = rand(seed++, 200)-100;
 		lifetime = 0;
 		lifespan = rand(seed++, lifeMax - lifeMin) + lifeMin;
 	}
@@ -71,7 +73,7 @@ void main() {
 	//float multiply = parTime;
 	//float a = cos(normLifetime * 1);
 	//float b = cos(normLifetime * 80);
-	//float c = sin(normLifetime * 1);
+	//float c = sin(normLifetime * 1);velocity = newVelocity;
 	//float y = sin(normLifetime * 80);
 	//position.x = a - (pow(b,3));
 	//position.y = c - (pow(y,3));
@@ -80,3 +82,7 @@ void main() {
 	//position.x = cos(a*t) - pow(cos(b*t),3);
 	//position.y = sin(a*t) - pow(sin(b*t),3);
 	//newVelocity.x = cos(a*t) - pow(cos(b*t),3);
+
+//	velocity.x = rand(seed++, 2) - 1;
+//	velocity.y = rand(seed++, 2) - 1;
+//	velocity.z = rand(seed++, 2) - 1;

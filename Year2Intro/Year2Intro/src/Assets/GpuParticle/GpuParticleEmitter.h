@@ -15,7 +15,8 @@ public:
 		float a_velocityMin, float a_velocityMax,
 		float a_startSize, float a_endSize,
 		const glm::vec4& a_startColour,
-		const glm::vec4& a_endColour);
+		const glm::vec4& a_endColour,
+		glm::vec3 a_position);
 
 	//Draw the Beautiful Particles
 	void draw(float parTime, float time, const glm::mat4& a_cameraTransform,

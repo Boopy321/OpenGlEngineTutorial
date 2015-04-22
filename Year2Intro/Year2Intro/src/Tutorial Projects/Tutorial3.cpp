@@ -27,17 +27,17 @@ Tutorial3::Tutorial3(Renderer* a_render)
 	m_emitter = new GPUParticleEmitter(a_render);
 	
 
-	m_emitter->initalise(1000000,
-		0.01f, 3.f,
-		0.01f, 5,
-		0.1, 0.0001f,
-		glm::vec4(1, 0, 0, 1), glm::vec4(1, 1, 0, 0));
-	
-	m_emitterReverse->initalise(1000000,
-		0.01f, 0.9f,
-		0.01f, 5,
-		0.1, 0.0001f,
-		glm::vec4(0.75, 0.75, 0.75, 0.4), glm::vec4(0.25, 0.25, 0.25, 1));
+//m_emitter->initalise(1000000,
+//	0.01f, 3.f,
+//	0.01f, 5,
+//	0.1, 0.0001f,
+//	glm::vec4(1, 0, 0, 1), glm::vec4(1, 1, 0, 0));
+//
+//m_emitterReverse->initalise(1000000,
+//	0.01f, 0.9f,
+//	0.01f, 5,
+//	0.1, 0.0001f,
+//	glm::vec4(0.75, 0.75, 0.75, 0.4), glm::vec4(0.25, 0.25, 0.25, 1));
 	//m_AltScreen = new RenderTarget(512,512);
 	/*GenMesh();*/
 }

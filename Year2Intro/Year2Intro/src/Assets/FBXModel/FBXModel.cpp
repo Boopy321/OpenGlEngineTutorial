@@ -27,7 +27,7 @@ FBXModel::~FBXModel()
 }
 
 
-void FBXModel::FBXDraw(unsigned int a_program, Renderer* a_render, Light* a_light, FlyCamera &_gameCamera,glm::mat4 &location)
+void FBXModel::FBXDraw(unsigned int a_program, Renderer* a_render, Light* a_light, FlyCamera &_gameCamera,glm::mat4 &)
 {
 	int loc = 0;
 	
@@ -68,11 +68,11 @@ void FBXModel::FBXDraw(unsigned int a_program, Renderer* a_render, Light* a_ligh
 
 			loc = glGetUniformLocation(a_program, "box_texture");
 			glUniform1i(loc, 0);
-			
 		}
-		glm::mat4 gamestuff = _gameCamera.getProjectionView();
+
+		glm::mat4 gamestuff = _gameCamera.getProjectionView() * m_worldTransform;
 		int loc = glGetUniformLocation(a_program, "MVP");
-		glUniformMatrix4fv(loc, 1, GL_FALSE, &(gamestuff*m_worldTransform)[0][0]);
+		glUniformMatrix4fv(loc, 1, GL_FALSE, &gamestuff[0][0]);
 		
 		loc = glGetUniformLocation(a_program, "LightDir");
 		glUniform3fv(loc, 1, &a_light->m_lightDirection[0]);
@@ -178,13 +178,11 @@ void FBXModel::LoadFBX(const char* string)
 		cerr << "FBX load Fail" << endl;
 	}
 
-	
 }
 
 void FBXModel::SetTransform(glm::mat4 transform)
 {
-	glm::mat4 m_worldTransform = transform;
-
+	 m_worldTransform = transform;
 }
 
 
