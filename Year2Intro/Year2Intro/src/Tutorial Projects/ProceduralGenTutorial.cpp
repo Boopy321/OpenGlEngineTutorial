@@ -42,10 +42,11 @@ ProceduralGenTutorial::ProceduralGenTutorial(Renderer* a_render,AntTweakBar* a_b
 	m_amplitude = 35.f;
 	m_persistence = 0.3f;
 	m_bar = a_bar;
-	m_scalar = 3.0f;
+	m_scalar = 10.0f;
 	m_treelimit = 50;
 	m_rocklimit = 100;
 	m_treeCount = 20;
+	m_octaves = 6;
 	m_rockcount = 10;
 	m_seed = 10000;
 	m_light = a_light;
@@ -76,15 +77,16 @@ ProceduralGenTutorial::ProceduralGenTutorial(Renderer* a_render,AntTweakBar* a_b
 	}
 
 	CreatePlane();
+	
+	m_bar->AddIntToTwBar("TreeCount", &m_treeCount);
+	m_bar->AddIntToTwBar("RockCount", &m_rockcount);
+
+	
+	m_bar->AddFloatToTwBar("Seed", &m_seed);
+	m_bar->AddFloatToTwBar("Amplitude", &m_amplitude);
+	m_bar->AddIntToTwBar("Ocataves", &m_octaves);
 	//TweakBarStuff
 	m_bar->RegenerateTerrain();
-	m_bar->AddFloatToTwBar("Seed", &m_seed);
-	m_bar->AddIntToTwBar("TreeLimit", &m_treeCount);
-	m_bar->AddIntToTwBar("RockLimit", &m_rockcount);
-	m_bar->AddFloatToTwBar("Amplitude", &m_amplitude);
-	m_bar->AddFloatToTwBar("Persistence", &m_persistence);
-	m_bar->AddBoolToTwBar("Regenerate?", &m_renegerate);
-	m_bar->AddVec3ToTwBar("m_lightDirection", &m_light->m_lightDirection);
 	glEnable(GL_BLEND);
 
 }
@@ -113,11 +115,12 @@ void ProceduralGenTutorial::Draw(FlyCamera &_gameCamera, float a_deltatime)
 
 	int m_program = 0;
 	
-	//m_emitter->draw(1.0f, (float)glfwGetTime(),
-	//	_gameCamera.getWorldTransform(),
-	//	_gameCamera.getProjectionView());
+	m_emitter->draw(1.0f, (float)glfwGetTime(),
+		_gameCamera.getWorldTransform(),
+		_gameCamera.getProjectionView());
 
-	Gizmos::addTransform(glm::mat4(1), 5.0f);
+//	Gizmos::addTransform(glm::mat4(1), 5.0f);
+
 	//DrawNormals();
 	//rocks
 
@@ -141,10 +144,10 @@ void ProceduralGenTutorial::Draw(FlyCamera &_gameCamera, float a_deltatime)
 	//glEnable(GL_CULL_FACE);
 	//Terrain Code
 
-	m_emitter->draw(0.0f, (float)glfwGetTime(),
-		_gameCamera.getWorldTransform(),
-		_gameCamera.getProjectionView());
-	
+	//m_emitter->draw(0.0f, (float)glfwGetTime(),
+	//	_gameCamera.getWorldTransform(),
+	//	_gameCamera.getProjectionView());
+	//
 
 	m_program = m_render->ReturnProgramTerrain();
 
@@ -319,7 +322,7 @@ void ProceduralGenTutorial::GeneratePerlin()
 {
 	int dims = m_grid;
 	float scale = (1.0f / dims) * 3;
-	m_octaves = 6;
+	
 
 	float height = 0;
 	
@@ -359,7 +362,7 @@ void ProceduralGenTutorial::GeneratePerlin()
 	float heightDif = heightmax - heightmin;
 	for ( int i = 0; i < m_grid * m_grid; ++i)
 	{
-		m_perlin_data[i] -= heightDif * m_scalar;
+		m_perlin_data[i] -= heightDif;
 	}
 	//Calculate normals here before the shader
 	//Throw in the Perlin Data instead of the Grid verts
@@ -427,12 +430,14 @@ void ProceduralGenTutorial::DrawNormals()
 
 void ProceduralGenTutorial::StartUpParticles(Renderer* a_render)
 {
+	if (m_emitter != nullptr)
+		delete(m_emitter);
 	m_emitter = new GPUParticleEmitter(a_render);
 
 	m_emitter->initalise(1000000,
 		0.0f, 20.f,
 		0.1f, 1.f,
 		0.1, 0.0001f,
-		glm::vec4(0, 0, 1, 1), glm::vec4(0, 0, 1, 0), glm::vec3(0,(heightmax * heightmax),0)
+		glm::vec4(0, 0, 1, 0.5), glm::vec4(0, 0, 1, 0), glm::vec3(0, ((heightmax*heightmax) * m_scalar/4), 0)
 		);
 }

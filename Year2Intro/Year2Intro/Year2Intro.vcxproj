@@ -88,9 +88,6 @@
     <ClCompile Include="dep\aieutilities\Gizmos.cpp" />
     <ClCompile Include="src\Assets\Texture2D\Texture2D.cpp" />
     <ClCompile Include="src\Tutorial Projects\ProceduralGenTutorial.cpp" />
-    <ClCompile Include="src\Tutorial Projects\SideProject.cpp" />
-    <ClCompile Include="src\Tutorial Projects\ShadowsTutorial.cpp" />
-    <ClCompile Include="src\Tutorial Projects\PostProcessingTutorial.cpp" />
     <ClCompile Include="src\Assets\GpuParticle\GpuParticleEmitter.cpp" />
     <ClCompile Include="src\Assets\RenderTargets\RenderTarget.cpp" />
     <ClCompile Include="src\Assets\CpuParticle\ParticleEmittor.cpp" />
@@ -104,12 +101,7 @@
     <ClCompile Include="src\Loaders\ObjLoader\ObjectLoader.cpp" />
     <ClCompile Include="src\Assets\Planet%28Sphere Code%29\Planet.cpp" />
     <ClCompile Include="src\Loaders\TinyObjLoader\tiny_obj_loader.cc" />
-    <ClCompile Include="src\Tutorial Projects\Tutoral1.cpp" />
-    <ClCompile Include="src\Tutorial Projects\Tutorial2.cpp" />
-    <ClCompile Include="src\Tutorial Projects\Tutorial3.cpp" />
-    <ClCompile Include="src\Tutorial Projects\Tutorial4.cpp" />
     <ClCompile Include="src\Loaders\TinyObjLoader\TinyObjSideProject.cpp" />
-    <ClCompile Include="src\Tutorial Projects\Tutorial5.cpp" />
     <ClCompile Include="src\Assets\FBXModel\Trees\Trees.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -120,9 +112,6 @@
     <ClInclude Include="dep\aieutilities\Gizmos.h" />
     <ClInclude Include="src\Assets\Texture2D\Texture2D.h" />
     <ClInclude Include="src\Tutorial Projects\ProceduralGenTutorial.h" />
-    <ClInclude Include="src\Tutorial Projects\SideProject.h" />
-    <ClInclude Include="src\Tutorial Projects\ShadowsTutorial.h" />
-    <ClInclude Include="src\Tutorial Projects\PostProcessingTutorial.h" />
     <ClInclude Include="src\Assets\GpuParticle\GpuParticleEmitter.h" />
     <ClInclude Include="src\Assets\GpuParticle\GPUParticles.h" />
     <ClInclude Include="src\Assets\RenderTargets\RenderTarget.h" />
@@ -137,14 +126,8 @@
     <ClInclude Include="src\Loaders\ObjLoader\ObjectLoader.h" />
     <ClInclude Include="src\Assets\Planet%28Sphere Code%29\Planet.h" />
     <ClInclude Include="src\Loaders\TinyObjLoader\tiny_obj_loader.h" />
-    <ClInclude Include="src\Tutorial Projects\Tutoral1.h" />
-    <ClInclude Include="src\Tutorial Projects\Tutorial2.h" />
-    <ClInclude Include="src\Tutorial Projects\Tutorial3.h" />
-    <ClInclude Include="src\Tutorial Projects\Tutorial4.h" />
     <ClInclude Include="src\VertexStructure.h" />
     <ClInclude Include="src\Loaders\TinyObjLoader\TinyObjSideProject.h" />
-    <ClInclude Include="src\Tutorial Projects\Tutorial5.h" />
-    <ClInclude Include="src\Tutorial Projects\TutorialBaseClass.h" />
     <ClInclude Include="src\Assets\FBXModel\Trees\Trees.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

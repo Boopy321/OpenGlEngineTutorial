@@ -29,7 +29,7 @@ float rand(uint seed, float range) {
 vec3 newVelocity;
 
 void main() {
-
+	int scale = 5;
 	uint seed = uint(time * 1000.0) + uint(gl_VertexID);
 	float t = Lifetime / Lifespan;
 	float randVal = rand(seed++, 2) * sin(time);
@@ -61,8 +61,8 @@ void main() {
 		velocity.z = 0;
 		velocity = normalize(velocity);
 		position = emitterPosition;
-		position.x = rand(seed++, 200)-100;
-		position.z = rand(seed++, 200)-100;
+		position.x = (rand(seed++, 200 * scale)-100* scale);
+		position.z = rand(seed++, 200 * scale)-100* scale;
 		lifetime = 0;
 		lifespan = rand(seed++, lifeMax - lifeMin) + lifeMin;
 	}

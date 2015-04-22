@@ -24,21 +24,6 @@
     <ClCompile Include="src\Application.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Tutorial Projects\Tutoral1.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Tutorial Projects\Tutorial2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Tutorial Projects\Tutorial3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Tutorial Projects\Tutorial4.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Tutorial Projects\Tutorial5.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Assets\Camera\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -67,15 +52,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Assets\GpuParticle\GpuParticleEmitter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Tutorial Projects\PostProcessingTutorial.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Tutorial Projects\ShadowsTutorial.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Tutorial Projects\SideProject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Tutorial Projects\ProceduralGenTutorial.cpp">
@@ -113,21 +89,6 @@
     <ClInclude Include="src\Application.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Tutorial Projects\Tutorial5.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Tutorial Projects\Tutoral1.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Tutorial Projects\Tutorial2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Tutorial Projects\Tutorial3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Tutorial Projects\Tutorial4.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Assets\Camera\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -135,9 +96,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Assets\InputManager\InputManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Tutorial Projects\TutorialBaseClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Loaders\ObjLoader\ObjectLoader.h">
@@ -165,15 +123,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Assets\GpuParticle\GPUParticles.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Tutorial Projects\PostProcessingTutorial.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Tutorial Projects\ShadowsTutorial.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Tutorial Projects\SideProject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Tutorial Projects\ProceduralGenTutorial.h">

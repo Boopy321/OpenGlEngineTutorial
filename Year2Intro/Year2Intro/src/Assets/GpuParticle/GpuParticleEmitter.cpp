@@ -171,7 +171,8 @@ void GPUParticleEmitter::createUpdateShader()
 
 void GPUParticleEmitter::draw(float parTime, float time,
 	const glm::mat4& a_cameraTransform,
-	const glm::mat4& a_projectionView)
+	const glm::mat4& a_projectionView
+	)
 {
 	// update the particles using transform feedback
 	glUseProgram(m_updateShader);

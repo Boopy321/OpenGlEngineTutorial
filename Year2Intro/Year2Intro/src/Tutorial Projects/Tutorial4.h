@@ -2,6 +2,7 @@
 class FlyCamera;
 
 #include <vector>
+
 #include "TutorialBaseClass.h"
 #include "VertexStructure.h"
 #include "Assets\Render\Renderer.h"
