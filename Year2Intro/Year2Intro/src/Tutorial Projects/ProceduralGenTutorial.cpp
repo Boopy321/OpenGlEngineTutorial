@@ -53,7 +53,6 @@ ProceduralGenTutorial::ProceduralGenTutorial(Renderer* a_render,AntTweakBar* a_b
 	m_lightdir = m_light->m_lightDirection;
 	m_indexData = new unsigned int[(m_grid - 1)*(m_grid - 1) * 6];
 
-	
 
 	m_tree = new FBXModel("./data/models/tree/treeplan1.fbx");
 	m_rock = new FBXModel("./data/models/Rock1/Rock1.fbx");
@@ -144,10 +143,6 @@ void ProceduralGenTutorial::Draw(FlyCamera &_gameCamera, float a_deltatime)
 	//glEnable(GL_CULL_FACE);
 	//Terrain Code
 
-	//m_emitter->draw(0.0f, (float)glfwGetTime(),
-	//	_gameCamera.getWorldTransform(),
-	//	_gameCamera.getProjectionView());
-	//
 
 	m_program = m_render->ReturnProgramTerrain();
 
