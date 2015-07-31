@@ -3,8 +3,8 @@
 struct GLFWwindow;
 class Light;
 
-#include "Tutorial Projects\ShadowsTutorial.h"
-#include "Tutorial Projects\ProceduralGenTutorial.h"
+#include "Core Files\ShadowsTutorial.h"
+#include "Core Files\ProceduralGenTutorial.h"
 #include "Assets/Camera/FlyCamera.h"
 #include <AntTweakBar.h>
 #include "Assets/InputManager/InputManager.h"

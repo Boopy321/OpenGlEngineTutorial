@@ -36,7 +36,7 @@ void main() {
 	float dif = deltaTime;
 
 	newVelocity.x = randVal * -cos(time * t);
-	newVelocity.y = sin(t);
+	newVelocity.y = 100.0;
 	newVelocity.z = tan(t * dif);
 
 	vec3 target = randVal * Velocity * vec3(sin(time), tan(time), cos(time));
@@ -57,7 +57,7 @@ void main() {
 
 		// Emitter position
 		velocity.x = 0;
-		velocity.y = rand(seed++, 2) -4;
+		velocity.y =  -200 ;
 		velocity.z = 0;
 		velocity = normalize(velocity);
 		position = emitterPosition;

@@ -20,7 +20,8 @@ m_lastDrawTime(0) {
 }
 
 
-GPUParticleEmitter::~GPUParticleEmitter() {
+GPUParticleEmitter::~GPUParticleEmitter() 
+{
 	delete[] m_particles;
 	glDeleteVertexArrays(2, m_vao);
 	glDeleteBuffers(2, m_vbo);
@@ -42,6 +43,7 @@ void GPUParticleEmitter::initalise(unsigned int a_maxParticles,
 	m_velocityMax = a_velocityMax;
 	m_lifespanMin = a_lifetimeMin;
 	m_lifespanMax = a_lifetimeMax;
+	
 	m_maxParticles = a_maxParticles;
 	m_position = a_position;
 	// create particle array

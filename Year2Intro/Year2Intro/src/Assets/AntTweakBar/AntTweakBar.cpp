@@ -7,7 +7,7 @@
 #include <iostream>
 #include "AntTweakBar.h"
 #include <string>
-#include "Tutorial Projects\ProceduralGenTutorial.h"
+#include "Core Files\ProceduralGenTutorial.h"
 #include "Assets\Light\Light.h"
 
 AntTweakBar::AntTweakBar(int a_width, int a_height, GLFWwindow* a_window)
